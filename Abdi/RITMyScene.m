@@ -49,9 +49,9 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        //self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-        //self.physicsBody.dynamic = NO;
-        //self.physicsBody.usesPreciseCollisionDetection = YES;
+        self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+        self.physicsBody.dynamic = NO;
+        self.physicsBody.usesPreciseCollisionDetection = YES;
         
         
         [self initalizingScrollingBackground];
@@ -175,8 +175,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     _hero.position = CGPointMake(60, 65);
     _hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
-    _hero.physicsBody.dynamic = NO;
-    //_hero.physicsBody.usesPreciseCollisionDetection = YES;
+    _hero.physicsBody.dynamic = YES;
+    _hero.physicsBody.usesPreciseCollisionDetection = YES;
     _hero.physicsBody.categoryBitMask = heroCategory;
     _hero.physicsBody.contactTestBitMask = villianCategory;
     _hero.physicsBody.collisionBitMask = villianCategory;
@@ -251,11 +251,11 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _villian.position = CGPointMake(CGRectGetWidth(self.frame), 60);
     
     _villian.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_villian.size];
-    _villian.physicsBody.dynamic = NO;
+    _villian.physicsBody.dynamic = YES;
     _villian.physicsBody.categoryBitMask = villianCategory;
     _villian.physicsBody.contactTestBitMask = heroCategory;
     _villian.physicsBody.collisionBitMask = heroCategory;
-    // _villian.physicsBody.usesPreciseCollisionDetection = YES;
+    _villian.physicsBody.usesPreciseCollisionDetection = YES;
     
     _villian.name=@"villian";
     [self addChild:_villian];
@@ -369,8 +369,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     NSLog(@"Hit");
     NSLog(@"%@",hero.name);
     NSLog(@"%@",villian.name);
-    //[villian removeFromParent];
-    //[hero removeFromParent];
+    [villian removeFromParent];
+    [hero removeFromParent];
     //[projectile removeFromParent];
     //[monster removeFromParent];
 }
@@ -393,8 +393,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         secondBody = contact.bodyA;
     }
     
-    if ((firstBody.categoryBitMask & villianCategory ) != 0 &&
-        (secondBody.categoryBitMask & heroCategory) != 0)
+    if ((firstBody.categoryBitMask & heroCategory ) != 0 &&
+        (secondBody.categoryBitMask & villianCategory) != 0)
     {
         [self villian:(SKSpriteNode *) firstBody.node didCollideWithHero:(SKSpriteNode *) secondBody.node];
     }
