@@ -12,6 +12,10 @@ CFTimeInterval _lastUpdateTime;
 CFTimeInterval _dt;
 
 static const float BG_VELOCITY = 100.0;
+
+static const uint32_t heroCategory     =  0x1 << 0;
+static const uint32_t villianCategory  =  0x1 << 1;
+
 static inline CGPoint CGPointAdd(const CGPoint a, const CGPoint b)
 {
     return CGPointMake(a.x + b.x, a.y + b.y);
@@ -21,6 +25,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 {
     return CGPointMake(a.x * b, a.y * b);
 }
+
+@interface RITMyScene() <SKPhysicsContactDelegate>
+
+@end
 
 @implementation RITMyScene{
     SKSpriteNode *_person;
@@ -45,6 +53,11 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         [self initalizingScrollingBackground];
         
         [self initializingCharacterImages];
+        
+        //setting up the physical world
+        self.physicsWorld.gravity = CGVectorMake(0,0);
+        self.physicsWorld.contactDelegate = self;
+        
         
         [self createFloor];
         
@@ -116,7 +129,6 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         NSString *textureName = [NSString stringWithFormat:@"%d", i];
         
         SKTexture *temp = [frames textureNamed:textureName];
-        
         [personArray addObject:temp];
         
     }
@@ -152,7 +164,12 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _person.position = CGPointMake(60, 80);
     
     _person.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_person.size];
-    //_person.physicsBody.dynamic = NO;
+    _person.physicsBody.dynamic = YES;
+    _person.physicsBody.categoryBitMask = heroCategory;
+    _person.physicsBody.contactTestBitMask = villianCategory;
+    _person.physicsBody.collisionBitMask = 0;
+    //_person.physicsBody.categoryBitMask =
+    
     //_person.physicsBody.usesPreciseCollisionDetection = YES;
     
     [self addChild:_person];
@@ -187,7 +204,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _person2.position = CGPointMake(CGRectGetWidth(self.frame), 80);
     
     _person2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_person2.size];
-    //_person2.physicsBody.dynamic = NO;
+    _person2.physicsBody.dynamic = YES;
+    _person2.physicsBody.categoryBitMask = villianCategory;
+    _person2.physicsBody.contactTestBitMask = heroCategory;
+    _person2.physicsBody.collisionBitMask = 0;
     //_person2.physicsBody.usesPreciseCollisionDetection = YES;
     
     [self addChild:_person2];
@@ -243,6 +263,39 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     [_person runAction:moveActionWithDone withKey:@"bearMoving"];*/
 
+    
+}
+
+
+- (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
+    //NSLog(@"%@",villian);
+    NSLog(@"Hit");
+    //[villian removeFromParent];
+    //[hero removeFromParent];
+    //[projectile removeFromParent];
+    //[monster removeFromParent];
+}
+
+//logic to handle contact
+
+- (void) didBeginContact:(SKPhysicsContact *) contact
+{
+    SKPhysicsBody *firstBody, *secondBody;
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    if ((firstBody.categoryBitMask & villianCategory ) != 0 &&
+        (secondBody.categoryBitMask & heroCategory) != 0)
+    {
+        [self villian:(SKSpriteNode *) firstBody.node didCollideWithHero:(SKSpriteNode *) secondBody.node];
+    }
     
 }
 

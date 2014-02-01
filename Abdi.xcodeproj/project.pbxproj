@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B95709CE189C77AD004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CD189C77AD004B95D0 /* prisoner.atlas */; };
+		B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CF189C7808004B95D0 /* prisoner.atlas */; };
 		B9F0719D189B581A0049E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719C189B581A0049E97F /* Foundation.framework */; };
 		B9F0719F189B581A0049E97F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719E189B581A0049E97F /* CoreGraphics.framework */; };
 		B9F071A1189B581A0049E97F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F071A0189B581A0049E97F /* UIKit.framework */; };
@@ -25,7 +27,6 @@
 		B9F071CD189B581A0049E97F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B9F071CB189B581A0049E97F /* InfoPlist.strings */; };
 		B9F071CF189B581A0049E97F /* AbdiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F071CE189B581A0049E97F /* AbdiTests.m */; };
 		B9F071DF189B703E0049E97F /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B9F071DE189B703E0049E97F /* 1.png */; };
-		B9F071E1189B7C130049E97F /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B9F071E0189B7C130049E97F /* images.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B95709CD189C77AD004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
+		B95709CF189C7808004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
 		B9F07199189B581A0049E97F /* Abdi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Abdi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F0719C189B581A0049E97F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B9F0719E189B581A0049E97F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -63,7 +66,6 @@
 		B9F071CC189B581A0049E97F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B9F071CE189B581A0049E97F /* AbdiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AbdiTests.m; sourceTree = "<group>"; };
 		B9F071DE189B703E0049E97F /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = "../../../../../../../../Downloads/clouds (1)/1.png"; sourceTree = "<group>"; };
-		B9F071E0189B7C130049E97F /* images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = images.atlas; path = ../../../../../../../../Downloads/images.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,12 +127,13 @@
 		B9F071A4189B581A0049E97F /* Abdi */ = {
 			isa = PBXGroup;
 			children = (
+				B95709CD189C77AD004B95D0 /* prisoner.atlas */,
 				B9F071AD189B581A0049E97F /* RITAppDelegate.h */,
 				B9F071AE189B581A0049E97F /* RITAppDelegate.m */,
-				B9F071E0189B7C130049E97F /* images.atlas */,
 				B9F071B0189B581A0049E97F /* Main.storyboard */,
 				B9F071B3189B581A0049E97F /* RITViewController.h */,
 				B9F071B4189B581A0049E97F /* RITViewController.m */,
+				B95709CF189C7808004B95D0 /* prisoner.atlas */,
 				B9F071DE189B703E0049E97F /* 1.png */,
 				B9F071B6189B581A0049E97F /* RITMyScene.h */,
 				B9F071B7189B581A0049E97F /* RITMyScene.m */,
@@ -248,11 +251,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F071A9189B581A0049E97F /* InfoPlist.strings in Resources */,
-				B9F071E1189B7C130049E97F /* images.atlas in Resources */,
 				B9F071BC189B581A0049E97F /* Images.xcassets in Resources */,
 				B9F071BA189B581A0049E97F /* Spaceship.png in Resources */,
 				B9F071B2189B581A0049E97F /* Main.storyboard in Resources */,
 				B9F071DF189B703E0049E97F /* 1.png in Resources */,
+				B95709CE189C77AD004B95D0 /* prisoner.atlas in Resources */,
+				B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +489,7 @@
 				B9F071D4189B581A0049E97F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B9F071D5189B581A0049E97F /* Build configuration list for PBXNativeTarget "AbdiTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +498,7 @@
 				B9F071D7189B581A0049E97F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
