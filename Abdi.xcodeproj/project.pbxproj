@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B95709CE189C77AD004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CD189C77AD004B95D0 /* prisoner.atlas */; };
+		385E80D0189CD46800C2E4EE /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 385E80CF189CD46800C2E4EE /* 1.png */; };
+		385E80D3189CEE5100C2E4EE /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D1189CEE5100C2E4EE /* MyParticle.sks */; };
+		385E80D4189CEE5100C2E4EE /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D2189CEE5100C2E4EE /* spark.png */; };
+		385E80D8189D24E900C2E4EE /* escape.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D5189D24E900C2E4EE /* escape.atlas */; };
+		385E80D9189D24E900C2E4EE /* kick.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D6189D24E900C2E4EE /* kick.atlas */; };
+		385E80DA189D24E900C2E4EE /* punch.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D7189D24E900C2E4EE /* punch.atlas */; };
+		385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80DB189D3C3F00C2E4EE /* jumping.atlas */; };
 		B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CF189C7808004B95D0 /* prisoner.atlas */; };
 		B9F0719D189B581A0049E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719C189B581A0049E97F /* Foundation.framework */; };
 		B9F0719F189B581A0049E97F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719E189B581A0049E97F /* CoreGraphics.framework */; };
@@ -26,7 +32,6 @@
 		B9F071C5189B581A0049E97F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F071A0189B581A0049E97F /* UIKit.framework */; };
 		B9F071CD189B581A0049E97F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B9F071CB189B581A0049E97F /* InfoPlist.strings */; };
 		B9F071CF189B581A0049E97F /* AbdiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F071CE189B581A0049E97F /* AbdiTests.m */; };
-		B9F071DF189B703E0049E97F /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B9F071DE189B703E0049E97F /* 1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +45,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B95709CD189C77AD004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
+		385E80CF189CD46800C2E4EE /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = ../../../Desktop/1.png; sourceTree = "<group>"; };
+		385E80D1189CEE5100C2E4EE /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		385E80D2189CEE5100C2E4EE /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		385E80D5189D24E900C2E4EE /* escape.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = escape.atlas; sourceTree = "<group>"; };
+		385E80D6189D24E900C2E4EE /* kick.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = kick.atlas; sourceTree = "<group>"; };
+		385E80D7189D24E900C2E4EE /* punch.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = punch.atlas; sourceTree = "<group>"; };
+		385E80DB189D3C3F00C2E4EE /* jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = jumping.atlas; sourceTree = "<group>"; };
 		B95709CF189C7808004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
 		B9F07199189B581A0049E97F /* Abdi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Abdi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F0719C189B581A0049E97F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,7 +76,6 @@
 		B9F071CA189B581A0049E97F /* AbdiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AbdiTests-Info.plist"; sourceTree = "<group>"; };
 		B9F071CC189B581A0049E97F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B9F071CE189B581A0049E97F /* AbdiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AbdiTests.m; sourceTree = "<group>"; };
-		B9F071DE189B703E0049E97F /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = "../../../../../../../../Downloads/clouds (1)/1.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +106,8 @@
 		B9F07190189B581A0049E97F = {
 			isa = PBXGroup;
 			children = (
+				385E80D1189CEE5100C2E4EE /* MyParticle.sks */,
+				385E80D2189CEE5100C2E4EE /* spark.png */,
 				B9F071A4189B581A0049E97F /* Abdi */,
 				B9F071C8189B581A0049E97F /* AbdiTests */,
 				B9F0719B189B581A0049E97F /* Frameworks */,
@@ -127,14 +139,17 @@
 		B9F071A4189B581A0049E97F /* Abdi */ = {
 			isa = PBXGroup;
 			children = (
-				B95709CD189C77AD004B95D0 /* prisoner.atlas */,
+				385E80DB189D3C3F00C2E4EE /* jumping.atlas */,
+				385E80D5189D24E900C2E4EE /* escape.atlas */,
+				385E80D6189D24E900C2E4EE /* kick.atlas */,
+				385E80D7189D24E900C2E4EE /* punch.atlas */,
+				385E80CF189CD46800C2E4EE /* 1.png */,
 				B9F071AD189B581A0049E97F /* RITAppDelegate.h */,
 				B9F071AE189B581A0049E97F /* RITAppDelegate.m */,
 				B9F071B0189B581A0049E97F /* Main.storyboard */,
 				B9F071B3189B581A0049E97F /* RITViewController.h */,
 				B9F071B4189B581A0049E97F /* RITViewController.m */,
 				B95709CF189C7808004B95D0 /* prisoner.atlas */,
-				B9F071DE189B703E0049E97F /* 1.png */,
 				B9F071B6189B581A0049E97F /* RITMyScene.h */,
 				B9F071B7189B581A0049E97F /* RITMyScene.m */,
 				B9F071B9189B581A0049E97F /* Spaceship.png */,
@@ -251,12 +266,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F071A9189B581A0049E97F /* InfoPlist.strings in Resources */,
+				385E80DA189D24E900C2E4EE /* punch.atlas in Resources */,
+				385E80D9189D24E900C2E4EE /* kick.atlas in Resources */,
+				385E80D4189CEE5100C2E4EE /* spark.png in Resources */,
 				B9F071BC189B581A0049E97F /* Images.xcassets in Resources */,
 				B9F071BA189B581A0049E97F /* Spaceship.png in Resources */,
+				385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */,
 				B9F071B2189B581A0049E97F /* Main.storyboard in Resources */,
-				B9F071DF189B703E0049E97F /* 1.png in Resources */,
-				B95709CE189C77AD004B95D0 /* prisoner.atlas in Resources */,
+				385E80D8189D24E900C2E4EE /* escape.atlas in Resources */,
 				B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */,
+				385E80D0189CD46800C2E4EE /* 1.png in Resources */,
+				385E80D3189CEE5100C2E4EE /* MyParticle.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
