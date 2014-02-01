@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Abdi/RITMyScene.m"
-            timestampString = "412909347.750097"
+            timestampString = "412929804.579262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "-initializingCharacterImages"
             landmarkType = "5">
          </BreakpointContent>

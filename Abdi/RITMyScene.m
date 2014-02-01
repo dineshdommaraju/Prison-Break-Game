@@ -31,14 +31,14 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 @end
 
 @implementation RITMyScene{
-    SKSpriteNode *_person;
-    NSArray *_walkingFrames;
-    NSArray *_newArray;
+    SKSpriteNode *_hero;
+    NSArray *_heroWalkingFramesArray;
+    NSArray *_heroJumpingMovesArray;
     UISwipeGestureRecognizer *swipeRightGesture;
     
     
-    SKSpriteNode *_person2;
-    NSArray *_walkingFrames2;
+    SKSpriteNode *_villian;
+    NSArray *_villianWalkingFramesArray;
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -87,12 +87,12 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     
     
-    [_person runAction:[SKAction animateWithTextures:_newArray timePerFrame:0.1f]];
+    [_hero runAction:[SKAction animateWithTextures: _heroJumpingMovesArray timePerFrame:0.1f]];
     
     SKAction *moveAction = [SKAction moveToY:500 duration:2.0];
-    [_person runAction:moveAction];
+    [_hero runAction:moveAction];
     
-    [_person runAction:[SKAction moveToY:80 duration:4.0]];
+    [_hero runAction:[SKAction moveToY:80 duration:4.0]];
     
     
     NSLog(@"In swipe Ended");
@@ -129,11 +129,14 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         NSString *textureName = [NSString stringWithFormat:@"%d", i];
         
         SKTexture *temp = [frames textureNamed:textureName];
+        
+        _hero = [SKSpriteNode spriteNodeWithTexture:temp];
+        _hero.name = [NSString stringWithFormat:@"move%d",i ];
         [personArray addObject:temp];
         
     }
     
-    _walkingFrames = personArray;
+    _heroWalkingFramesArray = personArray;
     
     //temp purpose
     
@@ -144,35 +147,37 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     while(i<7){
     NSString *textureName = [NSString stringWithFormat:@"jump%d",i];
     SKTexture *temp1 = [frames1 textureNamed:textureName];
+    
+    _hero = [SKSpriteNode spriteNodeWithTexture:temp1];
+    _hero.name = [NSString stringWithFormat:@"move%d",i ];
+        
     [newPersonArray addObject:temp1];
     i++;
     }
     
-    _newArray = newPersonArray;
+    _heroJumpingMovesArray = newPersonArray;
     
     // SKTexture *temp = _walkingFrames[0];
     
     
     
-    
     //Create bear sprite, setup position in middle of the screen, and add to Scene
     
-    SKTexture *temp = _walkingFrames[0];
+    SKTexture *temp = _heroWalkingFramesArray[0];
     
-    _person = [SKSpriteNode spriteNodeWithTexture:temp];
+    _hero = [SKSpriteNode spriteNodeWithTexture:temp];
     
-    _person.position = CGPointMake(60, 80);
-    
-    _person.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_person.size];
-    _person.physicsBody.dynamic = YES;
-    _person.physicsBody.categoryBitMask = heroCategory;
-    _person.physicsBody.contactTestBitMask = villianCategory;
-    _person.physicsBody.collisionBitMask = 0;
+    _hero.position = CGPointMake(60, 80);
+    _hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.size];
+    _hero.physicsBody.dynamic = YES;
+    _hero.physicsBody.categoryBitMask = heroCategory;
+    _hero.physicsBody.contactTestBitMask = villianCategory;
+    _hero.physicsBody.collisionBitMask = 0;
     //_person.physicsBody.categoryBitMask =
     
     //_person.physicsBody.usesPreciseCollisionDetection = YES;
     
-    [self addChild:_person];
+    [self addChild:_hero];
     [self walkingBear];
    // [self handleSwipeRight:swipeRightGesture];
     
@@ -195,22 +200,22 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         
     }
     
-    _walkingFrames2 = personArray1;
+    _villianWalkingFramesArray = personArray1;
     
-    SKTexture *temp2 = _walkingFrames2[0];
-    _person2 = [SKSpriteNode spriteNodeWithTexture:temp2];
+    SKTexture *temp2 = _villianWalkingFramesArray[0];
+    _villian = [SKSpriteNode spriteNodeWithTexture:temp2];
     
-    _person2.xScale = fabs(_person.xScale) * -1;
-    _person2.position = CGPointMake(CGRectGetWidth(self.frame), 80);
+    _villian.xScale = fabs(_hero.xScale) * -1;
+    _villian.position = CGPointMake(CGRectGetWidth(self.frame), 80);
     
-    _person2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_person2.size];
-    _person2.physicsBody.dynamic = YES;
-    _person2.physicsBody.categoryBitMask = villianCategory;
-    _person2.physicsBody.contactTestBitMask = heroCategory;
-    _person2.physicsBody.collisionBitMask = 0;
+    _villian.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_villian.size];
+    _villian.physicsBody.dynamic = YES;
+    _villian.physicsBody.categoryBitMask = villianCategory;
+    _villian.physicsBody.contactTestBitMask = heroCategory;
+    _villian.physicsBody.collisionBitMask = 0;
     //_person2.physicsBody.usesPreciseCollisionDetection = YES;
     
-    [self addChild:_person2];
+    [self addChild:_villian];
     
     [self moveSecondPerson];
    /*
@@ -270,6 +275,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 - (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
     //NSLog(@"%@",villian);
     NSLog(@"Hit");
+    NSLog(@"%@",hero.name);
+    NSLog(@"%@",villian.name);
     //[villian removeFromParent];
     //[hero removeFromParent];
     //[projectile removeFromParent];
@@ -310,14 +317,14 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     float bearVelocity =  screenSize.width / 3.0;
     
     //x and y distances for move
-    CGPoint moveDifference = CGPointMake(location.x - _person2.position.x, location.y - _person2.position.y);
+    CGPoint moveDifference = CGPointMake(location.x - _villian.position.x, location.y - _villian.position.y);
     float distanceToMove = sqrtf(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y);
     
     float moveDuration = distanceToMove / bearVelocity;
     
-    _person2.xScale = fabs(_person2.xScale) * -1;
+    _villian.xScale = fabs(_villian.xScale) * -1;
     
-    [_person2 runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_walkingFrames2 timePerFrame:0.1f resize:NO restore:YES]]];
+    [_villian runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_villianWalkingFramesArray timePerFrame:0.1f resize:NO restore:YES]]];
     
     SKAction *moveAction = [SKAction moveTo:location duration:moveDuration];
     SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
@@ -327,11 +334,11 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     SKAction *moveActionWithDone = [SKAction sequence:@[moveAction,doneAction ]];
     
-    [_person2 runAction:moveActionWithDone withKey:@"bearMoving"];
+    [_villian runAction:moveActionWithDone withKey:@"bearMoving"];
     
     //[_person2 removeFromParent];
-    if(_person2.position.x<0){
-    [_person2 removeFromParent];
+    if(_villian.position.x<0){
+    [_villian removeFromParent];
     
     }
 
@@ -383,7 +390,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
  
  */
 -(void) walkingBear{
-    [_person runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_walkingFrames timePerFrame:0.1f resize:NO restore:YES]]];
+    [_hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_heroWalkingFramesArray timePerFrame:0.1f resize:NO restore:YES]]];
     return;
 }
 
@@ -392,7 +399,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 {
     
-    [_person removeAllActions];
+    [_hero removeAllActions];
     
 }
 
