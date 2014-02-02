@@ -14,6 +14,7 @@
 		385E80DA189D24E900C2E4EE /* punch.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D7189D24E900C2E4EE /* punch.atlas */; };
 		385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80DB189D3C3F00C2E4EE /* jumping.atlas */; };
 		B93EBEDA189DE68100847E41 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B93EBED9189DE68100847E41 /* 1.png */; };
+		B93EBEDC189DF8C500847E41 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = B93EBEDB189DF8C500847E41 /* 2.png */; };
 		B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CF189C7808004B95D0 /* prisoner.atlas */; };
 		B9F0719D189B581A0049E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719C189B581A0049E97F /* Foundation.framework */; };
 		B9F0719F189B581A0049E97F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719E189B581A0049E97F /* CoreGraphics.framework */; };
@@ -52,6 +53,7 @@
 		385E80D7189D24E900C2E4EE /* punch.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = punch.atlas; sourceTree = "<group>"; };
 		385E80DB189D3C3F00C2E4EE /* jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = jumping.atlas; sourceTree = "<group>"; };
 		B93EBED9189DE68100847E41 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = ../../iosappchallenge2/1.png; sourceTree = "<group>"; };
+		B93EBEDB189DF8C500847E41 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = SOURCE_ROOT; };
 		B95709CF189C7808004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
 		B9F07199189B581A0049E97F /* Abdi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Abdi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F0719C189B581A0049E97F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -151,6 +153,7 @@
 				B95709CF189C7808004B95D0 /* prisoner.atlas */,
 				B9F071B6189B581A0049E97F /* RITMyScene.h */,
 				B9F071B7189B581A0049E97F /* RITMyScene.m */,
+				B93EBEDB189DF8C500847E41 /* 2.png */,
 				B93EBED9189DE68100847E41 /* 1.png */,
 				B9F071B9189B581A0049E97F /* Spaceship.png */,
 				B9F071BB189B581A0049E97F /* Images.xcassets */,
@@ -265,6 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93EBEDC189DF8C500847E41 /* 2.png in Resources */,
 				B9F071A9189B581A0049E97F /* InfoPlist.strings in Resources */,
 				385E80DA189D24E900C2E4EE /* punch.atlas in Resources */,
 				385E80D9189D24E900C2E4EE /* kick.atlas in Resources */,

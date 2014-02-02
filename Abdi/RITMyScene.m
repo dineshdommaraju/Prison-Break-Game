@@ -8,6 +8,7 @@
 
 #import "RITMyScene.h"
 
+CGSize adjustedSize;
 CFTimeInterval _lastUpdateTime;
 CFTimeInterval _dt;
 
@@ -197,8 +198,15 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     _hero = [SKSpriteNode spriteNodeWithTexture:temp];
     
-    _hero.position = CGPointMake(60, 65);
+    _hero.position = CGPointMake(60, 45);
+   // CGPoint adjustedSize = _hero.frame.size / 2 ;
+    CGFloat decrementBy = 0.6f;
+    
+    //adjustedSize.height= _hero.frame.size.height/2.0;
+    //adjustedSize.height= _hero.frame.size.width/2.0;
     _hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    //_hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
+
     _hero.physicsBody.dynamic = YES;
     _hero.physicsBody.usesPreciseCollisionDetection = YES;
     _hero.physicsBody.categoryBitMask = heroCategory;
@@ -208,6 +216,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     
     _hero.name=@"hero";
+    _hero.xScale=0.6f;
+    _hero.yScale=0.6f;
     [self addChild:_hero];
     [self escape:(SKSpriteNode*)_hero usingFrames:(NSArray *)_heroWalkingFramesArray];
     
@@ -229,9 +239,13 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKTexture *temp = _heroJumpingMovesArray[0];
     
     _heroJumping= [SKSpriteNode spriteNodeWithTexture:temp];
-    
-    _heroJumping.position = CGPointMake(60, 65);
+    _heroJumping.xScale=0.6f;
+    _heroJumping.yScale=0.6f;
+    _heroJumping.position = CGPointMake(60, 45);
+    //adjustedSize.height= _hero.frame.size.height/2.0;
+    //adjustedSize.height= _hero.frame.size.width/2.0;
     _heroJumping.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    //_heroJumping.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _heroJumping.physicsBody.dynamic = YES;
     _heroJumping.physicsBody.usesPreciseCollisionDetection = YES;
     //_heroJumping.physicsBody.
@@ -269,9 +283,16 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKTexture *temp = _kickingframes[0];
     
     _heroKicking= [SKSpriteNode spriteNodeWithTexture:temp];
+    _heroKicking.xScale=0.6f;
+    _heroKicking.yScale=0.6f;
     
-    _heroKicking.position = CGPointMake(60, 65);
+    _heroKicking.position = CGPointMake(60, 45);
+    
+    //adjustedSize.height= _hero.frame.size.height/2.0;
+    //adjustedSize.height= _hero.frame.size.width/2.0;
+    
     _heroKicking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    //_heroKicking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _heroKicking.physicsBody.dynamic = YES;
     _heroKicking.physicsBody.usesPreciseCollisionDetection = YES;
     _heroKicking.physicsBody.categoryBitMask = heroCategory;
@@ -305,9 +326,13 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKTexture *temp = _punchingframes[0];
     
     _heroPunching= [SKSpriteNode spriteNodeWithTexture:temp];
-    
-    _heroPunching.position = CGPointMake(60, 65);
+    _heroPunching.xScale=0.6f;
+    _heroPunching.yScale=0.6f;
+    _heroPunching.position = CGPointMake(60, 45);
+    //adjustedSize.height= _hero.frame.size.height/2.0;
+    //adjustedSize.height= _hero.frame.size.width/2.0;
     _heroPunching.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    //_heroPunching.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _heroPunching.physicsBody.dynamic = YES;
     _heroPunching.physicsBody.usesPreciseCollisionDetection = YES;
     _heroPunching.physicsBody.categoryBitMask = heroCategory;
@@ -331,7 +356,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _villian = [SKSpriteNode spriteNodeWithTexture:temp2];
     
     _villian.xScale = fabs(_hero.xScale) * -1;
-    _villian.position = CGPointMake(CGRectGetWidth(self.frame), 60);
+    _villian.yScale = 0.6f;
+    _villian.position = CGPointMake(CGRectGetWidth(self.frame), 45);
+    //adjustedSize.height= _hero.frame.size.height/2.0;
+    //adjustedSize.height= _hero.frame.size.width/2.0;
     
     _villian.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_villian.size];
     _villian.physicsBody.dynamic = YES;
@@ -616,8 +644,9 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 {
     for(int i =0 ; i < 2 ; i++)
     {
-        SKSpriteNode *bg = [SKSpriteNode spriteNodeWithImageNamed:@"1"];
+        SKSpriteNode *bg = [SKSpriteNode spriteNodeWithImageNamed:@"2"];
         bg.name = @"bg";
+        bg.yScale=1.5f;
         bg.position = CGPointMake(i * bg.size.width, 0);
         bg.anchorPoint = CGPointZero;
         bg.name = @"bg";

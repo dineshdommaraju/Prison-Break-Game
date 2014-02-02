@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Abdi/RITMyScene.m"
-            timestampString = "412929804.579262"
+            timestampString = "413012220.731117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "-addHeroJumping"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Abdi/RITMyScene.m"
-            timestampString = "412909347.750097"
+            timestampString = "413012220.731117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "@implementation RITMyScene"
             landmarkType = "3">
          </BreakpointContent>
