@@ -7,7 +7,8 @@
 //
 
 #import "RITViewController.h"
-#import "RITMyScene.h"
+#import "RITWelcomeScreen.h"
+
 
 @implementation RITViewController
 
@@ -19,7 +20,7 @@
     skView.showsFPS = YES;
     skView.showsNodeCount = YES;
     // Create and configure the scene.
-    SKScene * scene = [RITMyScene sceneWithSize:skView.bounds.size];
+    SKScene * scene = [RITWelcomeScreen sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.

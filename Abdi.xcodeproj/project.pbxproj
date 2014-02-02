@@ -14,9 +14,12 @@
 		385E80DA189D24E900C2E4EE /* punch.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D7189D24E900C2E4EE /* punch.atlas */; };
 		385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80DB189D3C3F00C2E4EE /* jumping.atlas */; };
 		385E80E6189E18B300C2E4EE /* bang.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80E5189E18B300C2E4EE /* bang.atlas */; };
+		385E80F9189EDACE00C2E4EE /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 385E80F8189EDACE00C2E4EE /* 1.png */; };
+		385E80FB189EDC5800C2E4EE /* dog.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80FA189EDC5800C2E4EE /* dog.atlas */; };
+		385E80FE189EDEBD00C2E4EE /* EndScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E80FD189EDEBC00C2E4EE /* EndScreen.m */; };
+		385E8101189EE23500C2E4EE /* RITWelcomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */; };
 		B908A090189E98FF007DAE38 /* heroDie.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B908A08F189E98FF007DAE38 /* heroDie.atlas */; };
 		B908A092189E990C007DAE38 /* police.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B908A091189E990C007DAE38 /* police.atlas */; };
-		B93EBEDA189DE68100847E41 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B93EBED9189DE68100847E41 /* 1.png */; };
 		B93EBEDC189DF8C500847E41 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = B93EBEDB189DF8C500847E41 /* 2.png */; };
 		B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B95709CF189C7808004B95D0 /* prisoner.atlas */; };
 		B9F0719D189B581A0049E97F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0719C189B581A0049E97F /* Foundation.framework */; };
@@ -56,9 +59,14 @@
 		385E80D7189D24E900C2E4EE /* punch.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = punch.atlas; sourceTree = "<group>"; };
 		385E80DB189D3C3F00C2E4EE /* jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = jumping.atlas; sourceTree = "<group>"; };
 		385E80E5189E18B300C2E4EE /* bang.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = bang.atlas; sourceTree = "<group>"; };
+		385E80F8189EDACE00C2E4EE /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = SOURCE_ROOT; };
+		385E80FA189EDC5800C2E4EE /* dog.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = dog.atlas; path = "../../../Abdi-Latest/Abdi/dog.atlas"; sourceTree = "<group>"; };
+		385E80FC189EDEBC00C2E4EE /* EndScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EndScreen.h; path = ../../../../Desktop/SpriteKitSimpleGame/SpriteKitSimpleGame/EndScreen.h; sourceTree = "<group>"; };
+		385E80FD189EDEBC00C2E4EE /* EndScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EndScreen.m; path = ../../../../Desktop/SpriteKitSimpleGame/SpriteKitSimpleGame/EndScreen.m; sourceTree = "<group>"; };
+		385E80FF189EE23500C2E4EE /* RITWelcomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RITWelcomeScreen.h; sourceTree = "<group>"; };
+		385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RITWelcomeScreen.m; sourceTree = "<group>"; };
 		B908A08F189E98FF007DAE38 /* heroDie.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = heroDie.atlas; sourceTree = "<group>"; };
 		B908A091189E990C007DAE38 /* police.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = police.atlas; sourceTree = "<group>"; };
-		B93EBED9189DE68100847E41 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = ../../iosappchallenge2/1.png; sourceTree = "<group>"; };
 		B93EBEDB189DF8C500847E41 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = SOURCE_ROOT; };
 		B95709CF189C7808004B95D0 /* prisoner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = prisoner.atlas; sourceTree = "<group>"; };
 		B9F07199189B581A0049E97F /* Abdi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Abdi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +155,12 @@
 		B9F071A4189B581A0049E97F /* Abdi */ = {
 			isa = PBXGroup;
 			children = (
+				385E80FC189EDEBC00C2E4EE /* EndScreen.h */,
+				385E80FD189EDEBC00C2E4EE /* EndScreen.m */,
+				385E80FF189EE23500C2E4EE /* RITWelcomeScreen.h */,
+				385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */,
+				385E80FA189EDC5800C2E4EE /* dog.atlas */,
+				385E80F8189EDACE00C2E4EE /* 1.png */,
 				385E80E5189E18B300C2E4EE /* bang.atlas */,
 				385E80DB189D3C3F00C2E4EE /* jumping.atlas */,
 				385E80D5189D24E900C2E4EE /* escape.atlas */,
@@ -163,7 +177,6 @@
 				B9F071B7189B581A0049E97F /* RITMyScene.m */,
 				B93EBEDB189DF8C500847E41 /* 2.png */,
 				B908A08F189E98FF007DAE38 /* heroDie.atlas */,
-				B93EBED9189DE68100847E41 /* 1.png */,
 				B9F071B9189B581A0049E97F /* Spaceship.png */,
 				B9F071BB189B581A0049E97F /* Images.xcassets */,
 				B9F071A5189B581A0049E97F /* Supporting Files */,
@@ -286,11 +299,12 @@
 				385E80D4189CEE5100C2E4EE /* spark.png in Resources */,
 				B9F071BC189B581A0049E97F /* Images.xcassets in Resources */,
 				B9F071BA189B581A0049E97F /* Spaceship.png in Resources */,
+				385E80FB189EDC5800C2E4EE /* dog.atlas in Resources */,
+				385E80F9189EDACE00C2E4EE /* 1.png in Resources */,
 				385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */,
 				B9F071B2189B581A0049E97F /* Main.storyboard in Resources */,
 				B908A092189E990C007DAE38 /* police.atlas in Resources */,
 				385E80D8189D24E900C2E4EE /* escape.atlas in Resources */,
-				B93EBEDA189DE68100847E41 /* 1.png in Resources */,
 				B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */,
 				385E80D3189CEE5100C2E4EE /* MyParticle.sks in Resources */,
 			);
@@ -311,6 +325,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				385E8101189EE23500C2E4EE /* RITWelcomeScreen.m in Sources */,
+				385E80FE189EDEBD00C2E4EE /* EndScreen.m in Sources */,
 				B9F071AF189B581A0049E97F /* RITAppDelegate.m in Sources */,
 				B9F071AB189B581A0049E97F /* main.m in Sources */,
 				B9F071B8189B581A0049E97F /* RITMyScene.m in Sources */,

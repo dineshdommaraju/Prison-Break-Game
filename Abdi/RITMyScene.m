@@ -8,6 +8,7 @@
 
 #import "RITMyScene.h"
 #import "RITViewController.h"
+#import "EndScreen.h"
 
 CGSize adjustedSize;
 CFTimeInterval _lastUpdateTime;
@@ -44,6 +45,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKSpriteNode *_heroPunching;
     SKSpriteNode *_heroDying;
     SKSpriteNode *_villianBanged;
+    SKSpriteNode *_dogAttacking;
     NSArray *_heroWalkingFramesArray;
     NSArray *_heroJumpingMovesArray;
     NSArray *_punchingframes;
@@ -51,6 +53,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     NSArray *_dyingFrames;
     NSArray *_escapingFrames;
     NSArray *_bangFrames;
+    NSArray *_dogFrames;
     UISwipeGestureRecognizer *swipeUpGesture;
     UISwipeGestureRecognizer *swipeLeftGesture;
     UISwipeGestureRecognizer *swipeRightGesture;
@@ -179,6 +182,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self intializeVillians];
   
     [self addVillians];
+    
+    [self addDogs];
     
 }
 
@@ -513,6 +518,49 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self moveSecondPerson:_villian3];
 }
 
+- (void) addDogs{
+    
+    
+    NSMutableArray *dogArray = [NSMutableArray array];
+    SKTextureAtlas *dogAtlasFrames = [SKTextureAtlas atlasNamed:@"dog"];
+    int numOfImages = dogAtlasFrames.textureNames.count;
+    for (int i=1; i <= numOfImages; i++) {
+        
+        NSString *textureName = [NSString stringWithFormat:@"dog%d", i];
+        
+        SKTexture *temp = [dogAtlasFrames textureNamed:textureName];
+        
+        [dogArray addObject:temp];
+        
+    }
+    
+    _dogFrames = dogArray;
+    SKTexture *temp2 = _dogFrames[0];
+    _dogAttacking = [SKSpriteNode spriteNodeWithTexture:temp2];
+    
+    _dogAttacking.xScale = fabs(_hero.xScale) * -1;
+    _dogAttacking.yScale = 0.4f;
+    _dogAttacking.position = CGPointMake(CGRectGetWidth(self.frame), 20);
+    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
+    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    
+    _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
+    _dogAttacking.physicsBody.dynamic = YES;
+    _dogAttacking.physicsBody.categoryBitMask = villianCategory;
+    _dogAttacking.physicsBody.contactTestBitMask = heroCategory;
+    _dogAttacking.physicsBody.collisionBitMask = heroCategory;
+    _dogAttacking.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    
+    
+    //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
+    //testVillian += 1;
+    _dogAttacking.name=@"dog";
+    [self addChild:_dogAttacking];
+    //NSLog(@"%@",_villian);
+    
+    [self dogAttack];
+}
 
 -(void) handleSwipeRight{
     
@@ -610,6 +658,12 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
                                 [self removeFromParent];}],
                 [SKAction runBlock:^{
                                 [_heroDying removeFromParent];
+                [scoreText runAction:[SKAction sequence:@[[SKAction moveTo:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)) duration:2.0],
+                                                          [SKAction scaleTo:2.0 duration:2.0]]] completion:^{
+                    SKScene *gameOverScene = [[GameOverScene alloc] initWithSize:self.size];
+                    SKTransition *doors = [SKTransition doorsOpenVerticalWithDuration:0.5];
+                    [self.view presentScene:gameOverScene transition:doors];
+                }];
                             }
                  ]]]];
 }
@@ -681,7 +735,36 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         [_villian3 removeFromParent];
 
     }
+}
+
+- (void) dogAttack{
+    
+    
+    
+    CGPoint location = CGPointMake(_hero.position.x*-1,_hero.position.y-20);
+    float moveDuration = 6.0;
+    
+    _dogAttacking.xScale = fabs(_dogAttacking.xScale) * -1;
+    
+    [_dogAttacking runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_dogFrames timePerFrame:0.1f resize:NO restore:YES]]];
+    
+    SKAction *moveAction = [SKAction moveTo:location duration:moveDuration];
+    SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
+        NSLog(@"Animation Completed");
+        //[_person2 removeAllActions];
+    }];
+    
+    SKAction *moveActionWithDone = [SKAction sequence:@[moveAction,doneAction ]];
+    
+    [_dogAttacking runAction:moveActionWithDone];
+    
+    //[_person2 removeFromParent];
+    if(_dogAttacking.position.x<0){
+        [_dogAttacking removeFromParent];
+        
     }
+    
+}
 
 - (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
     //NSLog(@"Hero Running");
@@ -691,9 +774,6 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 - (void)villian:(SKSpriteNode *)villian didPunchedByHero:(SKSpriteNode *)hero {
     score+=200;
-    //NSLog(@"Hero Punched ");
-   // NSLog(@"%@",villian);
-    //[villian removeFromParent];
     [self hitPolice:villian];
 }
 
@@ -706,9 +786,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 - (void)villian:(SKSpriteNode *)villian didJumpedByHero:(SKSpriteNode *)hero {
-    //NSLog(@"Hero Jumped");
-    //[hero removeFromParent];
-    
+    [self heroDie];
+    [_heroJumping removeFromParent];
 }
 
 //logic to handle contact
@@ -797,20 +876,11 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 -(void) moveSecondPerson:(SKSpriteNode *) villian {
     
-    villian.position = CGPointMake(CGRectGetWidth(self.frame), 45);
+    villian.position = CGPointMake(CGRectGetWidth(self.frame), 35);
 
     CGPoint location = CGPointMake(_hero.position.x*-1,_hero.position.y);
-    //CGFloat multiplierForDirection;
     
-    //CGSize screenSize = self.frame.size;
-    
-   // float bearVelocity =  screenSize.width / 3.0;
-    
-    //x and y distances for move
-    //CGPoint moveDifference = CGPointMake(location.x - _villian.position.x, location.y - _villian.position.y);
-    //float distanceToMove = sqrtf(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y);
-    
-    float moveDuration = 5.0;//distanceToMove / bearVelocity;
+    float moveDuration = 5.0;
     
     villian.xScale = fabs(villian.xScale) * -1;
     
