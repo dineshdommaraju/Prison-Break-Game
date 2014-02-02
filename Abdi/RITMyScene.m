@@ -45,7 +45,6 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKSpriteNode *_heroPunching;
     SKSpriteNode *_heroDying;
     SKSpriteNode *_villianBanged;
-    SKSpriteNode *_dogAttacking;
     NSArray *_heroWalkingFramesArray;
     NSArray *_heroJumpingMovesArray;
     NSArray *_punchingframes;
@@ -60,6 +59,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     NSTimeInterval lastSpawnTimeInterval;
     NSTimeInterval lastUpdateTimeInterval;
     
+    
+    SKSpriteNode *_dogAttacking;
+    SKSpriteNode *_dogAttacking2;
+    SKSpriteNode *_dogAttacking3;
     
     SKSpriteNode *_villian;
     SKSpriteNode *_villian2;
@@ -516,6 +519,94 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     //NSLog(@"%@",_villian);
     
     [self moveSecondPerson:_villian3];
+}
+
+- (void) addDogs{
+    
+    
+    NSMutableArray *dogArray = [NSMutableArray array];
+    SKTextureAtlas *dogAtlasFrames = [SKTextureAtlas atlasNamed:@"dog"];
+    int numOfImages = dogAtlasFrames.textureNames.count;
+    for (int i=1; i <= numOfImages; i++) {
+        
+        NSString *textureName = [NSString stringWithFormat:@"dog%d", i];
+        
+        SKTexture *temp = [dogAtlasFrames textureNamed:textureName];
+        
+        [dogArray addObject:temp];
+        
+    }
+    
+    _dogFrames = dogArray;
+    SKTexture *temp2 = _dogFrames[0];
+    _dogAttacking = [SKSpriteNode spriteNodeWithTexture:temp2];
+    
+    _dogAttacking.xScale = fabs(_hero.xScale) * -1;
+    _dogAttacking.yScale = 0.4f;
+    _dogAttacking.position = CGPointMake(CGRectGetWidth(self.frame), 20);
+    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
+    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    
+    _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
+    _dogAttacking.physicsBody.dynamic = YES;
+    _dogAttacking.physicsBody.categoryBitMask = villianCategory;
+    _dogAttacking.physicsBody.contactTestBitMask = heroCategory;
+    _dogAttacking.physicsBody.collisionBitMask = heroCategory;
+    _dogAttacking.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    
+    
+    //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
+    //testVillian += 1;
+    _dogAttacking.name=@"dog";
+    [self addChild:_dogAttacking];
+    //NSLog(@"%@",_villian);
+    
+    [self dogAttack];
+}
+
+- (void) addDog2{
+    
+    
+    NSMutableArray *dogArray = [NSMutableArray array];
+    SKTextureAtlas *dogAtlasFrames = [SKTextureAtlas atlasNamed:@"dog"];
+    int numOfImages = dogAtlasFrames.textureNames.count;
+    for (int i=1; i <= numOfImages; i++) {
+        
+        NSString *textureName = [NSString stringWithFormat:@"dog%d", i];
+        
+        SKTexture *temp = [dogAtlasFrames textureNamed:textureName];
+        
+        [dogArray addObject:temp];
+        
+    }
+    
+    _dogFrames = dogArray;
+    SKTexture *temp2 = _dogFrames[0];
+    _dogAttacking2 = [SKSpriteNode spriteNodeWithTexture:temp2];
+    
+    _dogAttacking2.xScale = fabs(_hero.xScale) * -1;
+    _dogAttacking2.yScale = 0.4f;
+    _dogAttacking2.position = CGPointMake(CGRectGetWidth(self.frame), 20);
+    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
+    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    
+    _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
+    _dogAttacking.physicsBody.dynamic = YES;
+    _dogAttacking.physicsBody.categoryBitMask = villianCategory;
+    _dogAttacking.physicsBody.contactTestBitMask = heroCategory;
+    _dogAttacking.physicsBody.collisionBitMask = heroCategory;
+    _dogAttacking.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    
+    
+    //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
+    //testVillian += 1;
+    _dogAttacking.name=@"dog";
+    [self addChild:_dogAttacking];
+    //NSLog(@"%@",_villian);
+    
+    [self dogAttack];
 }
 
 - (void) addDogs{
