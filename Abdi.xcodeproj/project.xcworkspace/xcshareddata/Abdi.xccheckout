@@ -12,6 +12,8 @@
 	<dict>
 		<key>6A450ECE-ADCA-4323-A1F1-7BDE29BCC8CC</key>
 		<string>https://github.com/dineshdommaraju/abdi1.git</string>
+		<key>B39B0E8E-3054-4011-B08A-95361627F89F</key>
+		<string>https://github.com/dineshdommaraju/abdi1</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Abdi.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>6A450ECE-ADCA-4323-A1F1-7BDE29BCC8CC</key>
 		<string>../..</string>
+		<key>B39B0E8E-3054-4011-B08A-95361627F89F</key>
+		<string>../../../iosappchallenge2</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/dineshdommaraju/abdi1.git</string>
@@ -35,6 +39,14 @@
 			<string>6A450ECE-ADCA-4323-A1F1-7BDE29BCC8CC</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Abdi-copy</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B39B0E8E-3054-4011-B08A-95361627F89F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosappchallenge2</string>
 		</dict>
 	</array>
 </dict>

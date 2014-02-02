@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "239"
             endingLineNumber = "239"
-            landmarkName = "-initializingCharacterImages"
+            landmarkName = "-addHeroJumping"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,8 +31,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
             endingLineNumber = "47"
-            landmarkName = "-initWithSize:"
-            landmarkType = "5">
+            landmarkName = "@implementation RITMyScene"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

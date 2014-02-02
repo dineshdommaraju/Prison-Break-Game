@@ -234,7 +234,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _heroJumping.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
     _heroJumping.physicsBody.dynamic = YES;
     _heroJumping.physicsBody.usesPreciseCollisionDetection = YES;
-    _heroJumping.physicsBody.
+    //_heroJumping.physicsBody.
     _heroJumping.physicsBody.categoryBitMask = heroCategory;
     _heroJumping.physicsBody.contactTestBitMask = villianCategory;
     _heroJumping.physicsBody.collisionBitMask = villianCategory;
@@ -420,6 +420,37 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 - (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
+    NSLog(@"Hero Running");
+    //NSLog(@"%@",villian);
+    //NSLog(@"Hit");
+    //NSLog(@"%@",hero.name);
+    //NSLog(@"%@",villian.name);
+    //[villian removeFromParent];
+    [hero removeFromParent];
+}
+
+- (void)villian:(SKSpriteNode *)villian didPunchedByHero:(SKSpriteNode *)hero {
+    NSLog(@"Hero Punched ");
+    //NSLog(@"%@",villian);
+    //NSLog(@"Hit");
+    //NSLog(@"%@",hero.name);
+    //NSLog(@"%@",villian.name);
+    //[villian removeFromParent];
+    [hero removeFromParent];
+}
+
+- (void)villian:(SKSpriteNode *)villian didKickedByHero:(SKSpriteNode *)hero {
+    NSLog(@"Hero Kicked");
+    //NSLog(@"%@",villian);
+    //NSLog(@"Hit");
+    //NSLog(@"%@",hero.name);
+    //NSLog(@"%@",villian.name);
+    //[villian removeFromParent];
+    [hero removeFromParent];
+}
+
+- (void)villian:(SKSpriteNode *)villian didJumpedByHero:(SKSpriteNode *)hero {
+    NSLog(@"Hero Jumped");
     //NSLog(@"%@",villian);
     //NSLog(@"Hit");
     //NSLog(@"%@",hero.name);
@@ -435,6 +466,79 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     SKPhysicsBody *firstBody, *secondBody;
     NSLog(@"%@",contact.bodyA.node.name);
     NSLog(@"%@",contact.bodyB.node.name);
+    
+    //finding the first and second bodies
+    //first body should always be Hero and its different categories
+    //second body should always be Villian
+    
+    if(contact.bodyA.node.name == @"hero")
+    {
+        firstBody = contact.bodyA;
+    }else if(contact.bodyA.node.name == @"heroJumping")
+    {
+        firstBody = contact.bodyA;
+        
+    }else if (contact.bodyA.node.name == @"heroKicking")
+    {
+        firstBody = contact.bodyA;
+    }
+    else if(contact.bodyA.node.name == @"heroPunching")
+    {
+        firstBody = contact.bodyA;
+        
+    }else if(contact.bodyA.node.name == @"villian")
+    {
+        secondBody = contact.bodyA;
+    }
+    
+    //
+    //
+    if(contact.bodyB.node.name == @"hero")
+    {
+        firstBody = contact.bodyB;
+    }else if(contact.bodyB.node.name == @"heroJumping")
+    {
+        firstBody = contact.bodyB;
+        
+    }else if (contact.bodyB.node.name == @"heroKicking")
+    {
+        firstBody = contact.bodyB;
+    }
+    else if(contact.bodyB.node.name == @"heroPunching")
+    {
+        firstBody = contact.bodyB;
+        
+    }else if(contact.bodyB.node.name == @"villian")
+    {
+        secondBody = contact.bodyB;
+    }
+    
+    //
+    //Calling different methods
+    
+    if(firstBody.node.name == @"hero" && secondBody.node.name==@"villian")
+    {
+        [self villian:(SKSpriteNode *) firstBody.node didCollideWithHero:(SKSpriteNode *) secondBody.node];
+        
+    }else if (firstBody.node.name == @"heroJumping" && secondBody.node.name==@"villian")
+    {
+        [self villian:(SKSpriteNode *) firstBody.node didJumpedByHero:(SKSpriteNode *) secondBody.node];
+        
+    }else if (firstBody.node.name == @"heroKicking" && secondBody.node.name==@"villian")
+    {
+        [self villian:(SKSpriteNode *) firstBody.node didKickedByHero:(SKSpriteNode *) secondBody.node];
+        
+    }else if (firstBody.node.name == @"heroPunching" && secondBody.node.name == @"villian")
+    {
+        [self villian:(SKSpriteNode *) firstBody.node didPunchedByHero:(SKSpriteNode *) secondBody.node];
+        
+    }
+    
+    //
+
+    
+    /*
+    
     
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
@@ -452,7 +556,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     {
         [self villian:(SKSpriteNode *) firstBody.node didCollideWithHero:(SKSpriteNode *) secondBody.node];
     }
-    
+    */
 }
 
 
