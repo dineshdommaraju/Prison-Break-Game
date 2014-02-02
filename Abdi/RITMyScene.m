@@ -32,6 +32,9 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 @implementation RITMyScene{
     SKSpriteNode *_hero;
+    SKSpriteNode *_heroJumping;
+    SKSpriteNode *_heroKicking;
+    SKSpriteNode *_heroPunching;
     NSArray *_heroWalkingFramesArray;
     NSArray *_heroJumpingMovesArray;
     NSArray *_punchingframes;
@@ -39,6 +42,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     UISwipeGestureRecognizer *swipeUpGesture;
     UISwipeGestureRecognizer *swipeLeftGesture;
     UISwipeGestureRecognizer *swipeRightGesture;
+    NSTimeInterval lastSpawnTimeInterval;
+    NSTimeInterval lastUpdateTimeInterval;
     
     
     SKSpriteNode *_villian;
@@ -84,7 +89,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     NSString *myParticlePath = [[NSBundle mainBundle] pathForResource:@"MyParticle" ofType:@"sks"];
     SKEmitterNode *myParticle = [NSKeyedUnarchiver unarchiveObjectWithFile:myParticlePath];
     
-   // myParticle.particlePosition = CGPointMake(100, 100);
+    // myParticle.particlePosition = CGPointMake(100, 100);
     //myParticle.particleBirthRate = 5;
     
     [self addChild:myParticle];
@@ -107,7 +112,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     
     swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                 action:@selector(handleSwipeRight)];
+                                                                  action:@selector(handleSwipeRight)];
     [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
     [view addGestureRecognizer: swipeRightGesture];
     
@@ -131,61 +136,12 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 -(void) initializingCharacterImages{
-    //Adding the images to the array
-    NSMutableArray *personArray = [NSMutableArray array];
     
-    SKTextureAtlas *frames = [SKTextureAtlas atlasNamed:@"prisoner"];
-    
-    int numImages = frames.textureNames.count;
-    
-    for (int i=1; i <= numImages; i++) {
-        
-        NSString *textureName = [NSString stringWithFormat:@"%d", i];
-        
-        SKTexture *temp = [frames textureNamed:textureName];
-        
-        //_hero = [SKSpriteNode spriteNodeWithTexture:temp];
-        //_hero.name = [NSString stringWithFormat:@"move%d",i ];
-        [personArray addObject:temp];
-        
-    }
-    
-    _heroWalkingFramesArray = personArray;
-    
-    //temp purpose
-    
-    
-    NSMutableArray *jumpingArray = [NSMutableArray array];
-    SKTextureAtlas *jumpingAtlasFrames = [SKTextureAtlas atlasNamed:@"jumping"];
-    numImages = jumpingAtlasFrames.textureNames.count;
-    for (int i=1; i <= numImages; i++) {
-        NSString *textureName = [NSString stringWithFormat:@"jump%d",i];
-        SKTexture *temp1 = [jumpingAtlasFrames textureNamed:textureName];
-        [jumpingArray addObject:temp1];
-    }
-    
-    _heroJumpingMovesArray = jumpingArray;
+    [self addHeroRunning];
     
     
     //Create bear sprite, setup position in middle of the screen, and add to Scene
     
-    SKTexture *temp = _heroWalkingFramesArray[0];
-    
-    _hero = [SKSpriteNode spriteNodeWithTexture:temp];
-    
-    _hero.position = CGPointMake(60, 65);
-    _hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
-    _hero.physicsBody.dynamic = YES;
-    _hero.physicsBody.usesPreciseCollisionDetection = YES;
-    _hero.physicsBody.categoryBitMask = heroCategory;
-    _hero.physicsBody.contactTestBitMask = villianCategory;
-    _hero.physicsBody.collisionBitMask = villianCategory;
-    //_person.physicsBody.categoryBitMask =
-    
-    
-    _hero.name=@"hero";
-    [self addChild:_hero];
-    [self escape];
     // [self walkingBear];
     // [self handleSwipeRight:swipeRightGesture];
     
@@ -207,10 +163,98 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     _villianWalkingFramesArray = villianArray;
     
+    // [self addHeroKicking];
+    
+    //[self addHeroPunching];
+    
+    [self addVillians];
+    
+}
+
+-(void) addHeroRunning{
+    //Adding the images to the array
+    NSMutableArray *personArray = [NSMutableArray array];
+    
+    SKTextureAtlas *frames = [SKTextureAtlas atlasNamed:@"prisoner"];
+    
+    int numImages = frames.textureNames.count;
+    
+    for (int i=1; i <= numImages; i++) {
+        
+        NSString *textureName = [NSString stringWithFormat:@"%d", i];
+        
+        SKTexture *temp = [frames textureNamed:textureName];
+        
+        //_hero = [SKSpriteNode spriteNodeWithTexture:temp];
+        //_hero.name = [NSString stringWithFormat:@"move%d",i ];
+        [personArray addObject:temp];
+        
+    }
+    
+    _heroWalkingFramesArray = personArray;
+    
+    SKTexture *temp = _heroWalkingFramesArray[0];
+    
+    _hero = [SKSpriteNode spriteNodeWithTexture:temp];
+    
+    _hero.position = CGPointMake(60, 65);
+    _hero.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    _hero.physicsBody.dynamic = YES;
+    _hero.physicsBody.usesPreciseCollisionDetection = YES;
+    _hero.physicsBody.categoryBitMask = heroCategory;
+    _hero.physicsBody.contactTestBitMask = villianCategory;
+    _hero.physicsBody.collisionBitMask = villianCategory;
+    //_person.physicsBody.categoryBitMask =
+    
+    
+    _hero.name=@"hero";
+    [self addChild:_hero];
+    [self escape:(SKSpriteNode*)_hero usingFrames:(NSArray *)_heroWalkingFramesArray];
+    
+    
+}
+
+-(void) addHeroJumping{
+    
+    NSMutableArray *jumpingArray = [NSMutableArray array];
+    SKTextureAtlas *jumpingAtlasFrames = [SKTextureAtlas atlasNamed:@"jumping"];
+    int numImages = jumpingAtlasFrames.textureNames.count;
+    for (int i=1; i <= numImages; i++) {
+        NSString *textureName = [NSString stringWithFormat:@"jump%d",i];
+        SKTexture *temp1 = [jumpingAtlasFrames textureNamed:textureName];
+        [jumpingArray addObject:temp1];
+    }
+    
+    _heroJumpingMovesArray = jumpingArray;
+    SKTexture *temp = _heroJumpingMovesArray[0];
+    
+    _heroJumping= [SKSpriteNode spriteNodeWithTexture:temp];
+    
+    _heroJumping.position = CGPointMake(60, 65);
+    _heroJumping.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    _heroJumping.physicsBody.dynamic = YES;
+    _heroJumping.physicsBody.usesPreciseCollisionDetection = YES;
+    _heroJumping.physicsBody.
+    _heroJumping.physicsBody.categoryBitMask = heroCategory;
+    _heroJumping.physicsBody.contactTestBitMask = villianCategory;
+    _heroJumping.physicsBody.collisionBitMask = villianCategory;
+    //_person.physicsBody.categoryBitMask =
+    
+    
+    _heroJumping.name=@"heroJumping";
+    [self addChild:_heroJumping];
+    [self escape:(SKSpriteNode*)_heroJumping usingFrames:(NSArray *)_heroJumpingMovesArray];
+    
+    
+    
+}
+
+-(void) addHeroKicking{
+    
     
     NSMutableArray *kickingArray = [NSMutableArray array];
     SKTextureAtlas *kickingAtlasFrames = [SKTextureAtlas atlasNamed:@"kick"];
-    numOfImages = kickingAtlasFrames.textureNames.count;
+    int numOfImages = kickingAtlasFrames.textureNames.count;
     for (int i=1; i <= numOfImages; i++) {
         
         NSString *textureName = [NSString stringWithFormat:@"kick%d", i];
@@ -218,15 +262,34 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         SKTexture *temp = [kickingAtlasFrames textureNamed:textureName];
         
         [kickingArray addObject:temp];
-        
     }
     
     _kickingframes = kickingArray;
     
+    SKTexture *temp = _kickingframes[0];
     
+    _heroKicking= [SKSpriteNode spriteNodeWithTexture:temp];
+    
+    _heroKicking.position = CGPointMake(60, 65);
+    _heroKicking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    _heroKicking.physicsBody.dynamic = YES;
+    _heroKicking.physicsBody.usesPreciseCollisionDetection = YES;
+    _heroKicking.physicsBody.categoryBitMask = heroCategory;
+    _heroKicking.physicsBody.contactTestBitMask = villianCategory;
+    _heroKicking.physicsBody.collisionBitMask = villianCategory;
+    //_person.physicsBody.categoryBitMask =
+    
+    
+    _heroKicking.name=@"heroKicking";
+    [self addChild:_heroKicking];
+    [self escape:(SKSpriteNode*)_heroKicking usingFrames:(NSArray *)_kickingframes];
+    
+}
+
+-(void) addHeroPunching{
     NSMutableArray *punchingArray = [NSMutableArray array];
     SKTextureAtlas *punchingAtlasFrames = [SKTextureAtlas atlasNamed:@"punch"];
-    numOfImages = punchingAtlasFrames.textureNames.count;
+    int numOfImages = punchingAtlasFrames.textureNames.count;
     for (int i=1; i <= numOfImages; i++) {
         
         NSString *textureName = [NSString stringWithFormat:@"punch%d", i];
@@ -238,11 +301,31 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     }
     
     _punchingframes = punchingArray;
+    
+    SKTexture *temp = _punchingframes[0];
+    
+    _heroPunching= [SKSpriteNode spriteNodeWithTexture:temp];
+    
+    _heroPunching.position = CGPointMake(60, 65);
+    _heroPunching.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_hero.frame.size];
+    _heroPunching.physicsBody.dynamic = YES;
+    _heroPunching.physicsBody.usesPreciseCollisionDetection = YES;
+    _heroPunching.physicsBody.categoryBitMask = heroCategory;
+    _heroPunching.physicsBody.contactTestBitMask = villianCategory;
+    _heroPunching.physicsBody.collisionBitMask = villianCategory;
+    //_person.physicsBody.categoryBitMask =
+    
+    
+    _heroPunching.name=@"heroPunching";
+    [self addChild:_heroPunching];
+    [self escape:(SKSpriteNode*)_heroPunching usingFrames:(NSArray *)_punchingframes];
+    
+    
+}
 
+-(void) addVillians{
     
     
-    
-
     
     SKTexture *temp2 = _villianWalkingFramesArray[0];
     _villian = [SKSpriteNode spriteNodeWithTexture:temp2];
@@ -261,63 +344,13 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self addChild:_villian];
     
     [self moveSecondPerson];
-    /*
-     NSLog(@"Im here");
-     
-     SKAction *moveTo = [SKAction moveToX:_person.xScale duration:4.0];
-     SKAction *keepRunning = [SKAction animateWithTextures:_walkingFrames2 timePerFrame:0.1f resize:NO restore:YES];
-     //Actions
-     SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
-     
-     NSLog(@"Animation Completed");
-     
-     //[self bearMoveEnded];
-     [_person2 removeAllActions];
-     
-     }];
-     
-     
-     
-     
-     SKAction *moveActionWithDone = [SKAction sequence:@[moveTo, doneAction ]];
-     [_person2 runAction: [SKAction sequence:@[keepRunning,moveActionWithDone]]];*/
-    /* [_person2 runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_walkingFrames2 timePerFrame:0.1f resize:NO restore:YES]]];*/
-    //return;
-    /*
-     _person2.xScale = fabs(_person.xScale) * -1;
-     
-     
-     [_person2 runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_walkingFrames2 timePerFrame:0.1f resize:NO restore:YES]]];
-     return;
-     
-     //CGPoint moveDifference = (location.x - _person.position.x, location.y - _person.position.y);
-     
-     SKAction *moveAction = [SKAction moveTo:_person.position duration:4.0];
-     
-     SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
-     
-     NSLog(@"Animation Completed");
-     
-     // [self bearMoveEnded];
-     [_person2 removeAllActions];
-     
-     }];
-     
-     
-     
-     SKAction *moveActionWithDone = [SKAction sequence:@[moveAction, doneAction ]];
-     
-     
-     
-     [_person runAction:moveActionWithDone withKey:@"bearMoving"];*/
-    
-    
 }
 
 -(void) handleSwipeRight{
     
     
-    [_hero runAction:[SKAction animateWithTextures: _kickingframes timePerFrame:0.1f]];
+    [self addHeroKicking];
+    //[_hero runAction:[SKAction animateWithTextures: _kickingframes timePerFrame:0.1f]];
     
     
 }
@@ -326,7 +359,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 -(void) handleSwipeLeft{
     
     
-    [_hero runAction:[SKAction animateWithTextures: _punchingframes timePerFrame:0.1f]];
+    [self addHeroPunching];
+    //[_hero runAction:[SKAction animateWithTextures: _punchingframes timePerFrame:0.1f]];
     
     
 }
@@ -334,54 +368,74 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 -(void) handleSwipeUp {
     
-    [_hero runAction:[SKAction animateWithTextures: _heroJumpingMovesArray timePerFrame:0.1f]];
+    
+    [self addHeroJumping];
+    //[_hero runAction:[SKAction animateWithTextures: _heroJumpingMovesArray timePerFrame:0.1f]];
     
 }
 
 
-- (void) escape{
-    
-    NSMutableArray *escapeFramesArray = [NSMutableArray array];
-    
-    SKTextureAtlas *escapeFramesAtlas = [SKTextureAtlas atlasNamed:@"escape"];
-    
-    int numOfImages = escapeFramesAtlas.textureNames.count;
-    
-    for (int i=1; i <= numOfImages; i++) {
+- (void) escape:(SKSpriteNode *)hero usingFrames: (NSArray *) framesArray{
+    /*
+     NSMutableArray *escapeFramesArray = [NSMutableArray array];
+     SKTextureAtlas *escapeFramesAtlas = [SKTextureAtlas atlasNamed:@"escape"];
+     int numOfImages = escapeFramesAtlas.textureNames.count;
+     for (int i=1; i <= numOfImages; i++) {
+     NSString *textureName = [NSString stringWithFormat:@"escape%d", i];
+     SKTexture *temp = [escapeFramesAtlas textureNamed:textureName];
+     [escapeFramesArray addObject:temp];
+     }
+     
+     NSArray *_escapingFrames = escapeFramesArray;
+     
+     [hero runAction:[SKAction repeatAction:[SKAction animateWithTextures:_escapingFrames timePerFrame:(2.0f)] count:4]];
+     */
+    if(hero.name == _hero.name){
+        [hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:framesArray timePerFrame:0.1f resize:NO restore:YES]]];
+    }
+    else{
+        [_hero removeFromParent];
         
-        NSString *textureName = [NSString stringWithFormat:@"escape%d", i];
+        [hero runAction:[SKAction sequence:@[
+                                             [SKAction animateWithTextures:framesArray timePerFrame:0.1f resize:NO restore:YES],
+                                             
+                                             
+                                             [SKAction runBlock:^{
+            [hero removeFromParent];
+            [self addHeroRunning];
+            // [_hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_heroWalkingFramesArray timePerFrame:0.1f resize:NO restore:YES]]];
+            
+        }
+                                              ]]]];
+        //[hero runAction:[SKAction animateWithTextures:framesArray timePerFrame:0.1f] completion:^{
         
-        SKTexture *temp = [escapeFramesAtlas textureNamed:textureName];
         
-        [escapeFramesArray addObject:temp];
+        //[hero removeFromParent];
+        
+        // [hero removeFromParent];
+        //[self addHeroRunning];
         
     }
     
-    NSArray *_escapingFrames = escapeFramesArray;
-    
-    
-    [_hero runAction:[SKAction repeatAction:[SKAction animateWithTextures:_escapingFrames timePerFrame:(2.0f)] count:4]];
-    [_hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_heroWalkingFramesArray timePerFrame:0.1f resize:NO restore:YES]]];
 }
 
 - (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
     //NSLog(@"%@",villian);
-    NSLog(@"Hit");
-    NSLog(@"%@",hero.name);
-    NSLog(@"%@",villian.name);
-    [villian removeFromParent];
+    //NSLog(@"Hit");
+    //NSLog(@"%@",hero.name);
+    //NSLog(@"%@",villian.name);
+    //[villian removeFromParent];
     [hero removeFromParent];
-    //[projectile removeFromParent];
-    //[monster removeFromParent];
 }
-
-
 
 //logic to handle contact
 
 - (void) didBeginContact:(SKPhysicsContact *) contact
 {
     SKPhysicsBody *firstBody, *secondBody;
+    NSLog(@"%@",contact.bodyA.node.name);
+    NSLog(@"%@",contact.bodyB.node.name);
+    
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
     {
@@ -439,51 +493,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     
 }
-/*
- 
- CGPoint location = [[touches anyObject] locationInNode:self];
- CGFloat multiplierForDirection;
- 
- CGSize screenSize = self.frame.size;
- 
- float bearVelocity =  screenSize.width / 3.0;
- 
- //x and y distances for move
- CGPoint moveDifference = CGPointMake(location.x - _bear.position.x, location.y - _bear.position.y);
- float distanceToMove = sqrtf(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y);
- 
- float moveDuration = distanceToMove / bearVelocity;
- 
- if (moveDifference.x < 0) {
- multiplierForDirection = 1;
- } else {
- multiplierForDirection = -1;
- }
- _bear.xScale = fabs(_bear.xScale) * multiplierForDirection;
- 
- if ([_bear actionForKey:@"bearMoving"]) {
- //stop just the moving to a new location, but leave the walking legs movement running
- [_bear removeActionForKey:@"bearMoving"];
- }
- 
- if (![_bear actionForKey:@"walkingInPlaceBear"]) {
- //if legs are not moving go ahead and start them
- [self walkingBear];  //start the bear walking
- }
- 
- SKAction *moveAction = [SKAction moveTo:moveDifference duration:moveDuration];
- SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
- NSLog(@"Animation Completed");
- [self bearMoveEnded];
- }];
- 
- SKAction *moveActionWithDone = [SKAction sequence:@[moveAction,doneAction ]];
- 
- [_bear runAction:moveActionWithDone withKey:@"bearMoving"];
- 
- 
- 
- */
+
 -(void) walkingBear{
     [_hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_heroWalkingFramesArray timePerFrame:0.1f resize:NO restore:YES]]];
     return;
@@ -535,102 +545,16 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 
+- (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
+    
+    lastSpawnTimeInterval += timeSinceLast;
+    if (lastSpawnTimeInterval > 5) {
+        lastSpawnTimeInterval = 0;
+        [self addVillians];
+    }
+}
 
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-/* Called when a touch begins */
 
-/*for (UITouch *touch in touches) {
- CGPoint location = [touch locationInNode:self];
- 
- SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
- 
- sprite.position = location;
- 
- SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
- 
- [sprite runAction:[SKAction repeatActionForever:action]];
- 
- [self addChild:sprite];
- }
- }
- */
-/*
- -(void)runImages {
- 
- 
- CGFloat multiplierForDirection;
- 
- float bearVelocity = 3.0;// screenSize.width / 3.0;
- 
- 
- 
- //x and y distances for move
- 
- CGPoint moveDifference = CGPointMake(0.0,0.0);//(location.x - _person.position.x, location.y - _person.position.y);
- 
- float distanceToMove = sqrtf(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y);
- 
- 
- 
- float moveDuration = 3.0;//distanceToMove / bearVelocity;
- 
- 
- 
- if (moveDifference.x < 0) {
- 
- multiplierForDirection = 1;
- 
- } else {
- 
- multiplierForDirection = -1;
- 
- }
- 
- _person.xScale = fabs(_person.xScale) * multiplierForDirection;
- // _person.xScale = fabs(_person.xScale);
- 
- 
- 
- if ([_person actionForKey:@"bearMoving"]) {
- 
- //stop just the moving to a new location, but leave the walking legs movement running
- 
- [_person removeActionForKey:@"bearMoving"];
- 
- }
- 
- 
- 
- if (![_person actionForKey:@"walkingInPlaceBear"]) {
- 
- //if legs are not moving go ahead and start them
- 
- [self walkingBear];  //start the bear walking
- 
- }
- 
- 
- 
- SKAction *moveAction = [SKAction moveTo:_person.position duration:moveDuration];
- 
- SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
- 
- NSLog(@"Animation Completed");
- 
- [self bearMoveEnded];
- 
- }];
- 
- 
- 
- SKAction *moveActionWithDone = [SKAction sequence:@[moveAction, doneAction ]];
- 
- 
- 
- [_person runAction:moveActionWithDone withKey:@"bearMoving"];
- 
- }
- */
 
 -(void)update:(CFTimeInterval)currentTime
 {
@@ -648,6 +572,17 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self moveBg];
     
     //[self runImages];
+    
+    
+    CFTimeInterval timeSinceLast = currentTime - lastUpdateTimeInterval;
+    lastUpdateTimeInterval = currentTime;
+    if (timeSinceLast > 5) { // more than a second since last update
+        timeSinceLast = 1.0 / 60.0;
+        lastUpdateTimeInterval = currentTime;
+    }
+    
+    [self updateWithTimeSinceLastUpdate:timeSinceLast];
+    
 }
 
 @end
