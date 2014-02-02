@@ -12,6 +12,7 @@ CGSize adjustedSize;
 CFTimeInterval _lastUpdateTime;
 CFTimeInterval _dt;
 BOOL stopGame = NO;
+//int testVillian =10;
 
 static const float BG_VELOCITY = 100.0;
 
@@ -381,9 +382,13 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _villian.physicsBody.collisionBitMask = heroCategory;
     _villian.physicsBody.usesPreciseCollisionDetection = YES;
     
+    
+    
+    //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
+    //testVillian += 1;
     _villian.name=@"villian";
     [self addChild:_villian];
-    NSLog(@"%@",_villian);
+    //NSLog(@"%@",_villian);
     
     [self moveSecondPerson];
 }
@@ -421,6 +426,15 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
   
     if(hero.name == _hero.name){
         [hero runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:framesArray timePerFrame:0.1f resize:NO restore:YES]]];
+    }else if (hero.name == _heroJumping.name){
+        
+        [_hero removeFromParent];
+        [hero runAction:[SKAction sequence:@[[SKAction moveToY:hero.position.y + hero.size.height duration:0.5f],
+                                             [SKAction moveToY:hero.position.y duration:0.5f],
+                                             [SKAction runBlock:^{
+            [hero removeFromParent];
+            [self addHeroRunning];
+        }]]]];
     }
     else{
         [_hero removeFromParent];
@@ -479,7 +493,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 - (void) hitPolice{
-    //[_villian removeFromParent];
+    [_villian removeFromParent];
     NSLog(@"Entered Hit Jump");
     NSMutableArray *bangArray = [NSMutableArray array];
     SKTextureAtlas *bangAtlasFrames = [SKTextureAtlas atlasNamed:@"bang"];
@@ -538,7 +552,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 - (void)villian:(SKSpriteNode *)villian didJumpedByHero:(SKSpriteNode *)hero {
     NSLog(@"Hero Jumped");
-    [hero removeFromParent];
+    //[hero removeFromParent];
+    
 }
 
 //logic to handle contact
@@ -719,7 +734,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
     
     lastSpawnTimeInterval += timeSinceLast;
-    if (lastSpawnTimeInterval > 2 && !stopGame) {
+    if (lastSpawnTimeInterval > 5 && !stopGame) {
         lastSpawnTimeInterval = 0;
         [self addVillians];
     }
