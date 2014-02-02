@@ -7,12 +7,14 @@
 //
 
 #import "RITMyScene.h"
+#import "RITViewController.h"
 
 CGSize adjustedSize;
 CFTimeInterval _lastUpdateTime;
 CFTimeInterval _dt;
 BOOL stopGame = NO;
 int availableVillians[3] = {0,0,0};
+int score = 0;
 
 //int testVillian =10;
 
@@ -32,10 +34,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 @interface RITMyScene() <SKPhysicsContactDelegate>
-
 @end
 
 @implementation RITMyScene{
+    SKLabelNode *scoreText;
     SKSpriteNode *_hero;
     SKSpriteNode *_heroJumping;
     SKSpriteNode *_heroKicking;
@@ -78,6 +80,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         [self initializingCharacterImages];
         
         [self createFloor];
+        [self intializeScore];
         //[self AddClimate];
         
         //setting up the physical world
@@ -687,6 +690,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 - (void)villian:(SKSpriteNode *)villian didPunchedByHero:(SKSpriteNode *)hero {
+    score+=200;
     //NSLog(@"Hero Punched ");
    // NSLog(@"%@",villian);
     //[villian removeFromParent];
@@ -694,6 +698,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 - (void)villian:(SKSpriteNode *)villian didKickedByHero:(SKSpriteNode *)hero {
+    score+=200;
     NSLog(@"Hero Kicked");
     NSLog(@"%@",hero.name);
     NSLog(@"%@",villian.name);
@@ -917,7 +922,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
             
 
             
-        }else if(availableVillians[2]==0)
+            }else if(availableVillians[2]==0)
         {
             availableVillians[2]=1;
             [self addVillians3];
@@ -931,10 +936,33 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     }
 }
 
+-(void) intializeScore{
+    
+    scoreText=[SKLabelNode labelNodeWithFontNamed:@"Courier"];
+    scoreText.name = @"kScoreHudName";
+    scoreText.fontColor = [SKColor blackColor];
+    scoreText.fontSize = 15;
+    scoreText.position = CGPointMake(self.frame.size.width* 0.8,self.frame.size.height*0.8);
+    [self addChild:scoreText];
 
+    
+    
+    
+}
 
+-(void) updateScore
+{
+    scoreText.text = [NSString stringWithFormat:@"Score: %d", score];
+}
 -(void)update:(CFTimeInterval)currentTime
 {
+    if(!stopGame)
+    {
+    score = score + 1;
+    [self updateScore];
+    }
+    
+    
     /* Called before each frame is rendered */
     if (_lastUpdateTime)
     {

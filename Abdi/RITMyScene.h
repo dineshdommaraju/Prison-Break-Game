@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "RITViewController.h"
 
 @interface RITMyScene : SKScene
 {
