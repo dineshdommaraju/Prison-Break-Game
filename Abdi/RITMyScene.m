@@ -10,13 +10,19 @@
 #import "RITViewController.h"
 #import "EndScreen.h"
 
+
+@import AVFoundation;
+
 CGSize adjustedSize;
 CFTimeInterval _lastUpdateTime;
 CFTimeInterval _dt;
+CFTimeInterval _levelUpTime=0;
 BOOL stopGame = NO;
 int availableVillians[3] = {0,0,0};
+int availableDogs[2]={0,0};
 int score = 0;
-
+int level = 0;
+float moveDuration = 5;
 //int testVillian =10;
 
 static const float BG_VELOCITY = 100.0;
@@ -35,10 +41,13 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 }
 
 @interface RITMyScene() <SKPhysicsContactDelegate>
+
+@property (nonatomic) AVAudioPlayer *backgroundMusicPlayer;
 @end
 
 @implementation RITMyScene{
     SKLabelNode *scoreText;
+    SKLabelNode *levelText;
     SKSpriteNode *_hero;
     SKSpriteNode *_heroJumping;
     SKSpriteNode *_heroKicking;
@@ -60,9 +69,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     NSTimeInterval lastUpdateTimeInterval;
     
     
+    
     SKSpriteNode *_dogAttacking;
     SKSpriteNode *_dogAttacking2;
-    SKSpriteNode *_dogAttacking3;
+    //SKSpriteNode *_dogAttacking3;
     
     SKSpriteNode *_villian;
     SKSpriteNode *_villian2;
@@ -75,11 +85,20 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         /* Setup your scene here */
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         self.name = @"self";
+        self.scaleMode=SKSceneScaleModeAspectFill;
         self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
        self.physicsBody.dynamic = NO;
         self.physicsBody.usesPreciseCollisionDetection = YES;
         self.physicsBody.categoryBitMask=0;
         
+        //Adding background music
+        
+        NSError *error;
+        NSURL * backgroundMusicURL = [[NSBundle mainBundle] URLForResource:@"background-music-aac" withExtension:@"caf"];
+        self.backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+        self.backgroundMusicPlayer.numberOfLoops = -1;
+        [self.backgroundMusicPlayer prepareToPlay];
+        [self.backgroundMusicPlayer play];
         
         [self initalizingScrollingBackground];
         
@@ -87,7 +106,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         
         [self createFloor];
         [self intializeScore];
-        //[self AddClimate];
+        [self intializeLevel];
+        [self AddClimate];
         
         //setting up the physical world
         self.physicsWorld.gravity = CGVectorMake(0,0);
@@ -108,13 +128,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 -(void) AddClimate{
     
-    NSString *myParticlePath = [[NSBundle mainBundle] pathForResource:@"MyParticle" ofType:@"sks"];
-    SKEmitterNode *myParticle = [NSKeyedUnarchiver unarchiveObjectWithFile:myParticlePath];
-    
-    // myParticle.particlePosition = CGPointMake(100, 100);
-    //myParticle.particleBirthRate = 5;
-    
-    [self addChild:myParticle];
+    NSString *rain = [[NSBundle mainBundle] pathForResource:@"Rainy" ofType:@"sks"];
+    SKEmitterNode *rainy = [NSKeyedUnarchiver unarchiveObjectWithFile:rain];
+    [self addChild:rainy];
+    rainy.particlePosition = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxX(self.frame));
     
 }
 
@@ -132,19 +149,12 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
                                                                  action:@selector(handleSwipeLeft)];
     [swipeLeftGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
     [view addGestureRecognizer: swipeLeftGesture];
-    
-    
-    
     swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                   action:@selector(handleSwipeRight)];
     [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
     [view addGestureRecognizer: swipeRightGesture];
     }
 }
-
-
-
-
 
 -(void) createFloor{
     SKSpriteNode *floor = [self newFloor];
@@ -186,7 +196,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
   
     [self addVillians];
     
-    [self addDogs];
+    //[self addDogs];
     
 }
 
@@ -468,7 +478,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _villian2.yScale = 0.4f;
     _villian2.position = CGPointMake(CGRectGetWidth(self.frame), 45);
     adjustedSize.height= 20;//_hero.frame.size.height/2.0;
-    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    adjustedSize.width= 20;//_hero.frame.size.width/2.0;
     
     _villian2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _villian2.physicsBody.dynamic = YES;
@@ -500,7 +510,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _villian3.yScale = 0.4f;
     _villian3.position = CGPointMake(CGRectGetWidth(self.frame), 45);
     adjustedSize.height= 20;//_hero.frame.size.height/2.0;
-    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    adjustedSize.width= 20;//_hero.frame.size.width/2.0;
     
     _villian3.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _villian3.physicsBody.dynamic = YES;
@@ -544,8 +554,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _dogAttacking.xScale = fabs(_hero.xScale) * -1;
     _dogAttacking.yScale = 0.4f;
     _dogAttacking.position = CGPointMake(CGRectGetWidth(self.frame), 20);
-    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
-    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    adjustedSize.height= _hero.frame.size.height/2.0;
+    adjustedSize.width= _hero.frame.size.width/4.0;
     
     _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
     _dogAttacking.physicsBody.dynamic = YES;
@@ -562,7 +572,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self addChild:_dogAttacking];
     //NSLog(@"%@",_villian);
     
-    [self dogAttack];
+    [self dogAttack:_dogAttacking];
 }
 
 - (void) addDog2{
@@ -588,76 +598,35 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _dogAttacking2.xScale = fabs(_hero.xScale) * -1;
     _dogAttacking2.yScale = 0.4f;
     _dogAttacking2.position = CGPointMake(CGRectGetWidth(self.frame), 20);
-    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
-    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
+    adjustedSize.height= _hero.frame.size.height/2.0;
+    adjustedSize.width= _hero.frame.size.width/4.0;
     
-    _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
-    _dogAttacking.physicsBody.dynamic = YES;
-    _dogAttacking.physicsBody.categoryBitMask = villianCategory;
-    _dogAttacking.physicsBody.contactTestBitMask = heroCategory;
-    _dogAttacking.physicsBody.collisionBitMask = heroCategory;
-    _dogAttacking.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    
+    //_dogAttacking2.physicsBody=[SKPhysicsBody bodyWithCircleOfRadius:<#(CGFloat)#>]
+    _dogAttacking2.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
+    _dogAttacking2.physicsBody.dynamic = YES;
+    _dogAttacking2.physicsBody.categoryBitMask = villianCategory;
+    _dogAttacking2.physicsBody.contactTestBitMask = heroCategory;
+    _dogAttacking2.physicsBody.collisionBitMask = heroCategory;
+    _dogAttacking2.physicsBody.usesPreciseCollisionDetection = YES;
     
     
     
     //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
     //testVillian += 1;
-    _dogAttacking.name=@"dog";
-    [self addChild:_dogAttacking];
+    _dogAttacking2.name=@"dog2";
+    [self addChild:_dogAttacking2];
     //NSLog(@"%@",_villian);
     
-    [self dogAttack];
+    [self dogAttack:_dogAttacking2];
 }
 
-- (void) addDogs{
-    
-    
-    NSMutableArray *dogArray = [NSMutableArray array];
-    SKTextureAtlas *dogAtlasFrames = [SKTextureAtlas atlasNamed:@"dog"];
-    int numOfImages = dogAtlasFrames.textureNames.count;
-    for (int i=1; i <= numOfImages; i++) {
-        
-        NSString *textureName = [NSString stringWithFormat:@"dog%d", i];
-        
-        SKTexture *temp = [dogAtlasFrames textureNamed:textureName];
-        
-        [dogArray addObject:temp];
-        
-    }
-    
-    _dogFrames = dogArray;
-    SKTexture *temp2 = _dogFrames[0];
-    _dogAttacking = [SKSpriteNode spriteNodeWithTexture:temp2];
-    
-    _dogAttacking.xScale = fabs(_hero.xScale) * -1;
-    _dogAttacking.yScale = 0.4f;
-    _dogAttacking.position = CGPointMake(CGRectGetWidth(self.frame), 20);
-    adjustedSize.height= 20;//_hero.frame.size.height/2.0;
-    adjustedSize.height= 20;//_hero.frame.size.width/2.0;
-    
-    _dogAttacking.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:adjustedSize];
-    _dogAttacking.physicsBody.dynamic = YES;
-    _dogAttacking.physicsBody.categoryBitMask = villianCategory;
-    _dogAttacking.physicsBody.contactTestBitMask = heroCategory;
-    _dogAttacking.physicsBody.collisionBitMask = heroCategory;
-    _dogAttacking.physicsBody.usesPreciseCollisionDetection = YES;
-    
-    
-    
-    //_villian.name = [@"villian" stringByAppendingString: [NSString stringWithFormat:@"%i",testVillian]];
-    //testVillian += 1;
-    _dogAttacking.name=@"dog";
-    [self addChild:_dogAttacking];
-    //NSLog(@"%@",_villian);
-    
-    [self dogAttack];
-}
 
 -(void) handleSwipeRight{
     
     if(!stopGame)
     [self addHeroKicking];
-    //[_hero runAction:[SKAction animateWithTextures: _kickingframes timePerFrame:0.1f]];
     
     
 }
@@ -667,8 +636,6 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     if(!stopGame)
     [self addHeroPunching];
-    //[_hero runAction:[SKAction animateWithTextures: _punchingframes timePerFrame:0.1f]];
-    
     
 }
 
@@ -677,7 +644,6 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     if(!stopGame)
     [self addHeroJumping];
-    //[_hero runAction:[SKAction animateWithTextures: _heroJumpingMovesArray timePerFrame:0.1f]];
     
 }
 
@@ -689,7 +655,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     }else if (hero.name == _heroJumping.name){
         
         [_hero removeFromParent];
-        [hero runAction:[SKAction sequence:@[[SKAction moveToY:hero.position.y + hero.size.height duration:0.5f],
+        [hero runAction:[SKAction sequence:@[[SKAction moveToY:hero.position.y + hero.size.height duration:0.6f],
                                              [SKAction moveToY:hero.position.y duration:0.5f],
                                              [SKAction runBlock:^{
             [hero removeFromParent];
@@ -701,6 +667,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         
         [hero runAction:[SKAction sequence:@[
                         [SKAction animateWithTextures:framesArray timePerFrame:0.1f resize:NO restore:YES],
+                        
                         [SKAction runBlock:^{
                                         [hero removeFromParent];
                                         [self addHeroRunning];
@@ -739,14 +706,16 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     _heroDying.name=@"heroBanged";
     [self addChild:_heroDying];
     stopGame = TRUE;
-    
+    //SKAction *load = [SKAction playSoundFileNamed:@"Comedy_Punch.mp3" waitForCompletion:YES];
+   // [_heroDying runAction:load];
     [_hero removeFromParent];
     [_heroDying runAction:[SKAction sequence:@[
                 [SKAction animateWithTextures:_dyingFrames timePerFrame:0.1f],
                 [SKAction runBlock:^{
         
-                                [_villian removeFromParent];
-                                [self removeFromParent];}],
+                                //[_villian removeFromParent];
+                                //[self removeFromParent];
+    }],
                 [SKAction runBlock:^{
                                 [_heroDying removeFromParent];
                 [scoreText runAction:[SKAction sequence:@[[SKAction moveTo:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)) duration:2.0],
@@ -800,14 +769,14 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
 -(void) removeVillian:(SKSpriteNode *)villian
 {
-    NSLog(@"---------------");
-    NSLog(@"Entered remove Villian");
-    NSLog(@"%@",villian.name);
-    NSLog(@"---------------");
+    //NSLog(@"---------------");
+    //NSLog(@"Entered remove Villian");
+    //NSLog(@"%@",villian.name);
+    //NSLog(@"---------------");
 
     if([villian.name isEqualToString:@"villian"])
     {
-        NSLog(@"villian1 removed");
+        //NSLog(@"villian1 removed");
         availableVillians[0]=0;
         [_villian removeFromParent];
 
@@ -815,64 +784,81 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
             
     }else if([villian.name isEqualToString:@"villian2"] )
     {
-         NSLog(@"villian2 removed");
+         //NSLog(@"villian2 removed");
         availableVillians[1]=0;
         [_villian2 removeFromParent];
 
     }else if([villian.name isEqualToString:@"villian3"])
     {
-         NSLog(@"villian3 removed");
+         //NSLog(@"villian3 removed");
         availableVillians[2]=0;
         [_villian3 removeFromParent];
 
     }
 }
 
-- (void) dogAttack{
+- (void) dogAttack:(SKSpriteNode *) dog{
     
     
     
     CGPoint location = CGPointMake(_hero.position.x*-1,_hero.position.y-20);
-    float moveDuration = 6.0;
+    float moveDuration = 5.0;
     
-    _dogAttacking.xScale = fabs(_dogAttacking.xScale) * -1;
+    dog.xScale = fabs(dog.xScale) * -1;
     
-    [_dogAttacking runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_dogFrames timePerFrame:0.1f resize:NO restore:YES]]];
+    [dog runAction:[SKAction repeatActionForever:[SKAction animateWithTextures:_dogFrames timePerFrame:0.1f resize:NO restore:YES]]];
     
     SKAction *moveAction = [SKAction moveTo:location duration:moveDuration];
     SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
-        NSLog(@"Animation Completed");
+        //NSLog(@"Animation Completed");
         //[_person2 removeAllActions];
     }];
     
     SKAction *moveActionWithDone = [SKAction sequence:@[moveAction,doneAction ]];
     
-    [_dogAttacking runAction:moveActionWithDone];
+    [dog runAction:moveActionWithDone];
     
     //[_person2 removeFromParent];
-    if(_dogAttacking.position.x<0){
-        [_dogAttacking removeFromParent];
+    if(dog.position.x<0){
+        //NSLog(@"testing whether dog is removed");
+        if([dog.name isEqualToString:@"dog"])
+        {
+            availableDogs[0]=0;
+            
+        }else if([dog.name isEqualToString:@"dog2"])
+        {
+            availableDogs[1]=0;
+            
+        }
+        
+        [dog removeFromParent];
         
     }
     
 }
 
 - (void)villian:(SKSpriteNode *)villian didCollideWithHero:(SKSpriteNode *)hero {
+    
     //NSLog(@"Hero Running");
+    
     [self heroDie];
+    [_hero removeFromParent];
     
 }
 
 - (void)villian:(SKSpriteNode *)villian didPunchedByHero:(SKSpriteNode *)hero {
     score+=200;
+    
+    SKAction *load = [SKAction playSoundFileNamed:@"Super Punch.mp3" waitForCompletion:YES];
+    [_heroPunching runAction:load];
     [self hitPolice:villian];
 }
 
 - (void)villian:(SKSpriteNode *)villian didKickedByHero:(SKSpriteNode *)hero {
     score+=200;
-    NSLog(@"Hero Kicked");
-    NSLog(@"%@",hero.name);
-    NSLog(@"%@",villian.name);
+
+    SKAction *load = [SKAction playSoundFileNamed:@"Kick.mp3" waitForCompletion:YES];
+    [_heroKicking runAction:load];
     [self hitPolice:villian];
 }
 
@@ -886,10 +872,10 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 - (void) didBeginContact:(SKPhysicsContact *) contact
 {
     SKPhysicsBody *firstBody, *secondBody;
-    NSLog(@"------------");
-    NSLog(@"%@",contact.bodyA.node.name);
-    NSLog(@"%@",contact.bodyB.node.name);
-          NSLog(@"------------");
+    //NSLog(@"------------");
+    //NSLog(@"%@",contact.bodyA.node.name);
+    //NSLog(@"%@",contact.bodyB.node.name);
+          //NSLog(@"------------");
     
     //finding the first and second bodies
     //first body should always be Hero and its different categories
@@ -911,6 +897,9 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         firstBody = contact.bodyA;
         
     }else if([contact.bodyA.node.name  isEqual: @"villian"] || [contact.bodyA.node.name  isEqual: @"villian2"] || [contact.bodyA.node.name  isEqual: @"villian3"] )
+    {
+        secondBody = contact.bodyA;
+    }else if([contact.bodyA.node.name  isEqual: @"dog"] || [contact.bodyA.node.name  isEqual: @"dog2"])
     {
         secondBody = contact.bodyA;
     }
@@ -935,18 +924,25 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     }else if([contact.bodyB.node.name  isEqual: @"villian"]|| [contact.bodyB.node.name  isEqual: @"villian2"] || [contact.bodyB.node.name  isEqual:@"villian3"] )
     {
         secondBody = contact.bodyB;
+    }else if([contact.bodyB.node.name  isEqual: @"dog"] || [contact.bodyB.node.name  isEqual: @"dog2"])
+    {
+        secondBody = contact.bodyB;
     }
     
-    NSLog(@"**********");
-    NSLog(@"%@",firstBody.node.name);
-    NSLog(@"%@",secondBody.node.name);
-    NSLog(@"**********");
+    //NSLog(@"**********");
+    //NSLog(@"%@",firstBody.node.name);
+    //NSLog(@"%@",secondBody.node.name);
+    //NSLog(@"**********");
     
     //
     
     //Calling different methods
+    if(([firstBody.node.name  isEqual: @"hero"] ||[firstBody.node.name  isEqual: @"heroKicking"] || [firstBody.node.name  isEqual: @"heroPunching"])  && ([secondBody.node.name isEqual:@"dog"] || [secondBody.node.name isEqual:@"dog2"]) )
+    {
+        [self villian:(SKSpriteNode *) secondBody.node didCollideWithHero:(SKSpriteNode *) firstBody.node];
+    }
     
-    if([firstBody.node.name  isEqual: @"hero"] && ([secondBody.node.name isEqual:@"villian"] ||             [secondBody.node.name isEqual:@"villian2"] || [secondBody.node.name isEqual:@"villian3"]))
+    else if([firstBody.node.name  isEqual: @"hero"] && ([secondBody.node.name isEqual:@"villian"] ||             [secondBody.node.name isEqual:@"villian2"] || [secondBody.node.name isEqual:@"villian3"] ))
     {
         [self villian:(SKSpriteNode *) secondBody.node didCollideWithHero:(SKSpriteNode *) firstBody.node];
         
@@ -971,7 +967,7 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 
     CGPoint location = CGPointMake(_hero.position.x*-1,_hero.position.y);
     
-    float moveDuration = 5.0;
+    //float moveDuration = 5.0;
     
     villian.xScale = fabs(villian.xScale) * -1;
     
@@ -979,8 +975,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
     SKAction *moveAction = [SKAction moveTo:location duration:moveDuration];
     SKAction *doneAction = [SKAction runBlock:(dispatch_block_t)^() {
-        NSLog(@"Villian Created");
-        NSLog(@"%@",villian.name);
+        //NSLog(@"Villian Created");
+        //NSLog(@"%@",villian.name);
               
         //[_person2 removeAllActions];
     }];
@@ -1052,17 +1048,26 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     
 }
 
+-(int) getRandomNumberBetween:(int) from to:(int) to {
+    
+    return (int)from + arc4random() %(to - from +1);
+}
 
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
     
     lastSpawnTimeInterval += timeSinceLast;
     if (lastSpawnTimeInterval > 2 && !stopGame) {
         lastSpawnTimeInterval = 0;
-        NSLog(@"Entered check available villians");
+        //NSLog(@"Entered check available villians");
         //check for available villians
-        NSLog(@"%d",availableVillians[0]);
-        NSLog(@"%d",availableVillians[1]);
-        NSLog(@"%d",availableVillians[2]);
+        //NSLog(@"%d",availableVillians[0]);
+        //NSLog(@"%d",availableVillians[1]);
+        //NSLog(@"%d",availableVillians[2]);
+        
+        int random = [self getRandomNumberBetween:0 to:1];
+        if(random == 0)
+        {
+        
         if(availableVillians[0]==0)
         {
             availableVillians[0]=1;
@@ -1092,9 +1097,31 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
             //[self moveSecondPerson:_villian3];
             
             
-        }
+        }}
+        if(random==1)
+        {
+        
+        if(availableDogs[0]==0)
+        {
+            availableDogs[0]=1;
+            [self addDogs];
+        }else if(availableDogs[1]==0)
+        {
+            availableDogs[1]=1;
+            [self addDog2];
+        }}
+        
         //[self addVillians];
     }
+}
+
+-(void) intializeLevel{
+    levelText=[SKLabelNode labelNodeWithFontNamed:@"Courier"];
+    levelText.name = @"kScoreHudName";
+    levelText.fontColor = [SKColor blackColor];
+    levelText.fontSize = 15;
+    levelText.position = CGPointMake(self.frame.size.width* 0.8,self.frame.size.height*0.75);
+    [self addChild:levelText];
 }
 
 -(void) intializeScore{
@@ -1115,12 +1142,26 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
 {
     scoreText.text = [NSString stringWithFormat:@"Score: %d", score];
 }
+
+-(void) updateLevel
+{
+    levelText.text = [NSString stringWithFormat:@"Level: %d", level];
+}
+
 -(void)update:(CFTimeInterval)currentTime
 {
+    if(_dogAttacking.position.x < 0)
+    {
+        availableDogs[0]=0;
+    }else if(_dogAttacking2.position.x < 0)
+    {
+        availableDogs[1]=0;
+    }
     if(!stopGame)
     {
     score = score + 1;
     [self updateScore];
+    
     }
     
     
@@ -1138,8 +1179,18 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
     [self moveBg];
     
     //[self runImages];
+    //
+    if(currentTime - _levelUpTime > 10)
+    {
+        level+=1;
+        moveDuration-=0.2;
+        NSLog(@"level up");
+        _levelUpTime = currentTime;
+        [self updateLevel];
+    }
     
-    
+    //
+    //
     CFTimeInterval timeSinceLast = currentTime - lastUpdateTimeInterval;
     lastUpdateTimeInterval = currentTime;
     if (timeSinceLast > 5) { // more than a second since last update
@@ -1147,6 +1198,8 @@ static inline CGPoint CGPointMultiplyScalar(const CGPoint a, const CGFloat b)
         lastUpdateTimeInterval = currentTime;
         
     }
+    
+    
     
     [self updateWithTimeSinceLastUpdate:timeSinceLast];
     

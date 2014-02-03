@@ -7,17 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		385E80D3189CEE5100C2E4EE /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D1189CEE5100C2E4EE /* MyParticle.sks */; };
-		385E80D4189CEE5100C2E4EE /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D2189CEE5100C2E4EE /* spark.png */; };
 		385E80D8189D24E900C2E4EE /* escape.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D5189D24E900C2E4EE /* escape.atlas */; };
 		385E80D9189D24E900C2E4EE /* kick.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D6189D24E900C2E4EE /* kick.atlas */; };
 		385E80DA189D24E900C2E4EE /* punch.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80D7189D24E900C2E4EE /* punch.atlas */; };
 		385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80DB189D3C3F00C2E4EE /* jumping.atlas */; };
 		385E80E6189E18B300C2E4EE /* bang.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80E5189E18B300C2E4EE /* bang.atlas */; };
 		385E80F9189EDACE00C2E4EE /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 385E80F8189EDACE00C2E4EE /* 1.png */; };
-		385E80FB189EDC5800C2E4EE /* dog.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E80FA189EDC5800C2E4EE /* dog.atlas */; };
-		385E80FE189EDEBD00C2E4EE /* EndScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E80FD189EDEBC00C2E4EE /* EndScreen.m */; };
 		385E8101189EE23500C2E4EE /* RITWelcomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */; };
+		385E8103189EF1E600C2E4EE /* dog.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 385E8102189EF1E600C2E4EE /* dog.atlas */; };
+		385E8106189EF20300C2E4EE /* EndScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 385E8105189EF20300C2E4EE /* EndScreen.m */; };
+		38757EC3189EFEA300C09137 /* Comedy_Punch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38757EC0189EFEA300C09137 /* Comedy_Punch.mp3 */; };
+		38757EC4189EFEA300C09137 /* Kick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38757EC1189EFEA300C09137 /* Kick.mp3 */; };
+		38757EC5189EFEA300C09137 /* Super Punch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38757EC2189EFEA300C09137 /* Super Punch.mp3 */; };
+		38757ECB189F0FB800C09137 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 38757ECA189F0FB800C09137 /* spark.png */; };
+		38757ECD189F0FD200C09137 /* Rainy.sks in Resources */ = {isa = PBXBuildFile; fileRef = 38757ECC189F0FD200C09137 /* Rainy.sks */; };
+		38757ED0189F2D6800C09137 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 38757ECF189F2D6800C09137 /* background-music-aac.caf */; };
 		B908A090189E98FF007DAE38 /* heroDie.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B908A08F189E98FF007DAE38 /* heroDie.atlas */; };
 		B908A092189E990C007DAE38 /* police.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B908A091189E990C007DAE38 /* police.atlas */; };
 		B93EBEDC189DF8C500847E41 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = B93EBEDB189DF8C500847E41 /* 2.png */; };
@@ -52,19 +56,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		385E80D1189CEE5100C2E4EE /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
-		385E80D2189CEE5100C2E4EE /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		385E80D5189D24E900C2E4EE /* escape.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = escape.atlas; sourceTree = "<group>"; };
 		385E80D6189D24E900C2E4EE /* kick.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = kick.atlas; sourceTree = "<group>"; };
 		385E80D7189D24E900C2E4EE /* punch.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = punch.atlas; sourceTree = "<group>"; };
 		385E80DB189D3C3F00C2E4EE /* jumping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = jumping.atlas; sourceTree = "<group>"; };
 		385E80E5189E18B300C2E4EE /* bang.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = bang.atlas; sourceTree = "<group>"; };
 		385E80F8189EDACE00C2E4EE /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = SOURCE_ROOT; };
-		385E80FA189EDC5800C2E4EE /* dog.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = dog.atlas; path = "../../../Abdi-Latest/Abdi/dog.atlas"; sourceTree = "<group>"; };
-		385E80FC189EDEBC00C2E4EE /* EndScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EndScreen.h; path = ../../../../Desktop/SpriteKitSimpleGame/SpriteKitSimpleGame/EndScreen.h; sourceTree = "<group>"; };
-		385E80FD189EDEBC00C2E4EE /* EndScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EndScreen.m; path = ../../../../Desktop/SpriteKitSimpleGame/SpriteKitSimpleGame/EndScreen.m; sourceTree = "<group>"; };
 		385E80FF189EE23500C2E4EE /* RITWelcomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RITWelcomeScreen.h; sourceTree = "<group>"; };
 		385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RITWelcomeScreen.m; sourceTree = "<group>"; };
+		385E8102189EF1E600C2E4EE /* dog.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dog.atlas; sourceTree = "<group>"; };
+		385E8104189EF20300C2E4EE /* EndScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndScreen.h; sourceTree = "<group>"; };
+		385E8105189EF20300C2E4EE /* EndScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndScreen.m; sourceTree = "<group>"; };
+		38757EC0189EFEA300C09137 /* Comedy_Punch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Comedy_Punch.mp3; sourceTree = "<group>"; };
+		38757EC1189EFEA300C09137 /* Kick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Kick.mp3; sourceTree = "<group>"; };
+		38757EC2189EFEA300C09137 /* Super Punch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Super Punch.mp3"; sourceTree = "<group>"; };
+		38757ECA189F0FB800C09137 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		38757ECC189F0FD200C09137 /* Rainy.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Rainy.sks; sourceTree = "<group>"; };
+		38757ECF189F2D6800C09137 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		B908A08F189E98FF007DAE38 /* heroDie.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = heroDie.atlas; sourceTree = "<group>"; };
 		B908A091189E990C007DAE38 /* police.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = police.atlas; sourceTree = "<group>"; };
 		B93EBEDB189DF8C500847E41 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = SOURCE_ROOT; };
@@ -119,11 +127,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38757EBF189EFEA300C09137 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				38757ECF189F2D6800C09137 /* background-music-aac.caf */,
+				38757EC0189EFEA300C09137 /* Comedy_Punch.mp3 */,
+				38757EC1189EFEA300C09137 /* Kick.mp3 */,
+				38757EC2189EFEA300C09137 /* Super Punch.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		38757ECE189F19F400C09137 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		B9F07190189B581A0049E97F = {
 			isa = PBXGroup;
 			children = (
-				385E80D1189CEE5100C2E4EE /* MyParticle.sks */,
-				385E80D2189CEE5100C2E4EE /* spark.png */,
+				38757ECC189F0FD200C09137 /* Rainy.sks */,
+				38757ECA189F0FB800C09137 /* spark.png */,
 				B9F071A4189B581A0049E97F /* Abdi */,
 				B9F071C8189B581A0049E97F /* AbdiTests */,
 				B9F0719B189B581A0049E97F /* Frameworks */,
@@ -155,11 +181,13 @@
 		B9F071A4189B581A0049E97F /* Abdi */ = {
 			isa = PBXGroup;
 			children = (
-				385E80FC189EDEBC00C2E4EE /* EndScreen.h */,
-				385E80FD189EDEBC00C2E4EE /* EndScreen.m */,
+				38757ECE189F19F400C09137 /* iPad */,
+				38757EBF189EFEA300C09137 /* Sounds */,
+				385E8104189EF20300C2E4EE /* EndScreen.h */,
+				385E8105189EF20300C2E4EE /* EndScreen.m */,
+				385E8102189EF1E600C2E4EE /* dog.atlas */,
 				385E80FF189EE23500C2E4EE /* RITWelcomeScreen.h */,
 				385E8100189EE23500C2E4EE /* RITWelcomeScreen.m */,
-				385E80FA189EDC5800C2E4EE /* dog.atlas */,
 				385E80F8189EDACE00C2E4EE /* 1.png */,
 				385E80E5189E18B300C2E4EE /* bang.atlas */,
 				385E80DB189D3C3F00C2E4EE /* jumping.atlas */,
@@ -295,18 +323,22 @@
 				B908A090189E98FF007DAE38 /* heroDie.atlas in Resources */,
 				385E80DA189D24E900C2E4EE /* punch.atlas in Resources */,
 				385E80D9189D24E900C2E4EE /* kick.atlas in Resources */,
+				38757ECB189F0FB800C09137 /* spark.png in Resources */,
 				385E80E6189E18B300C2E4EE /* bang.atlas in Resources */,
-				385E80D4189CEE5100C2E4EE /* spark.png in Resources */,
+				38757ECD189F0FD200C09137 /* Rainy.sks in Resources */,
+				38757ED0189F2D6800C09137 /* background-music-aac.caf in Resources */,
 				B9F071BC189B581A0049E97F /* Images.xcassets in Resources */,
 				B9F071BA189B581A0049E97F /* Spaceship.png in Resources */,
-				385E80FB189EDC5800C2E4EE /* dog.atlas in Resources */,
 				385E80F9189EDACE00C2E4EE /* 1.png in Resources */,
+				38757EC5189EFEA300C09137 /* Super Punch.mp3 in Resources */,
 				385E80DC189D3C3F00C2E4EE /* jumping.atlas in Resources */,
 				B9F071B2189B581A0049E97F /* Main.storyboard in Resources */,
+				38757EC3189EFEA300C09137 /* Comedy_Punch.mp3 in Resources */,
 				B908A092189E990C007DAE38 /* police.atlas in Resources */,
 				385E80D8189D24E900C2E4EE /* escape.atlas in Resources */,
+				38757EC4189EFEA300C09137 /* Kick.mp3 in Resources */,
 				B95709D0189C7808004B95D0 /* prisoner.atlas in Resources */,
-				385E80D3189CEE5100C2E4EE /* MyParticle.sks in Resources */,
+				385E8103189EF1E600C2E4EE /* dog.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,9 +358,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				385E8101189EE23500C2E4EE /* RITWelcomeScreen.m in Sources */,
-				385E80FE189EDEBD00C2E4EE /* EndScreen.m in Sources */,
 				B9F071AF189B581A0049E97F /* RITAppDelegate.m in Sources */,
 				B9F071AB189B581A0049E97F /* main.m in Sources */,
+				385E8106189EF20300C2E4EE /* EndScreen.m in Sources */,
 				B9F071B8189B581A0049E97F /* RITMyScene.m in Sources */,
 				B9F071B5189B581A0049E97F /* RITViewController.m in Sources */,
 			);
@@ -460,8 +492,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Abdi/Abdi-Prefix.pch";
 				INFOPLIST_FILE = "Abdi/Abdi-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -474,8 +508,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Abdi/Abdi-Prefix.pch";
 				INFOPLIST_FILE = "Abdi/Abdi-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

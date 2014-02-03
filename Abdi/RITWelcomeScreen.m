@@ -21,6 +21,8 @@
 
 -(void) didMoveToView:(SKView *)view{
     if(!self.contentCreated){
+        NSLog(@"here");
+        [self options];
         [self createSceneContents];
         self.contentCreated = YES;
     }
@@ -30,18 +32,34 @@
     self.backgroundColor = [SKColor blackColor];
     self.scaleMode = SKSceneScaleModeAspectFill;
     [self addChild:[self welcomeScreen]];
+    [self addChild:[self options]];
 }
 
 -(SKLabelNode *) welcomeScreen{
-    SKLabelNode *welcome = [SKLabelNode labelNodeWithFontNamed:@"ChalkDuster"];
+    SKLabelNode *welcome = [SKLabelNode labelNodeWithFontNamed:@"welcome"];
     
-    welcome.text = @"Touch the screen to start the Game";
+    welcome.text = @"Tap to start the Game";
     welcome.name = @"welcome";
-    welcome.fontSize = 10;
+    welcome.fontSize = 20;
     welcome.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    return welcome;
+    
+    [self options];
+   return welcome;
     
 }
+
+-(SKLabelNode *) options{
+    SKLabelNode *controls = [SKLabelNode labelNodeWithFontNamed:@"controls"];
+    NSString *controlOne = @"1. Swipe right to kick";
+    NSString *controlTwo = @"2. Swipe Left to punch";
+    NSString *controlThree = @"3. Swipe up to jump";
+    controls.text = [NSString stringWithFormat: @"%@ \n %@ \n %@",controlOne,controlTwo,controlThree];
+    controls.name = @"controls";
+    controls.fontSize = 10;
+    controls.position = CGPointMake(CGRectGetMidX(self.frame) , CGRectGetMidY(self.frame)-40);
+    return controls;
+}
+
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     SKNode *welcome = [self childNodeWithName:@"welcome"];

@@ -18,7 +18,7 @@
  
         [gameOver runAction:[SKAction sequence:@[[SKAction moveTo:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)) duration:2.0]]]];
         
-       [self runAction:
+     /*  [self runAction:
             [SKAction sequence:@[
                 [SKAction waitForDuration:3.0],
                 [SKAction runBlock:^{
@@ -27,7 +27,7 @@
                     [self.view presentScene:myScene transition: reveal];
                 }]
             ]]
-        ];
+        ];*/
  
     }
     return self;
